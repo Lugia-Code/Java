@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LugiaTrackerApplication {
 
 	public static void main(String[] args) {
+		com.lugiatracker.config.DotenvConfig.loadEnv();
 		SpringApplication.run(LugiaTrackerApplication.class, args);
 	}
 
