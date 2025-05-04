@@ -34,7 +34,6 @@ public class Gerente {
 	@Pattern(
 		    regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$",
 		    message = "A senha deve ter no mínimo 8 caracteres, com ao menos uma letra maiúscula, uma minúscula, um número e um caractere especial."
-
 		)
 	@Column(name="senha")
 	private String senha;
