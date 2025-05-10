@@ -1,5 +1,7 @@
 package com.lugiatracker.model;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +18,7 @@ import lombok.Data;
 @Entity
 @Table(name="TBL_GERENTE")
 @Data
-public class Gerente {
+public class Gerente extends RepresentationModel<Gerente> {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id_gerente;
