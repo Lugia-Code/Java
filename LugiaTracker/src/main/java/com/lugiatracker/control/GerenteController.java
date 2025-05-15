@@ -1,5 +1,8 @@
 package com.lugiatracker.control;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lugiatracker.dto.GerenteDTO;
 import com.lugiatracker.model.Gerente;
+import com.lugiatracker.model.Moto;
 import com.lugiatracker.model.Patio;
 import com.lugiatracker.repository.GerenteRepository;
 import com.lugiatracker.repository.PatioRepository;
@@ -39,7 +43,7 @@ public class GerenteController {
     private GerenteRepository repG;
 
     @Autowired
-    private GerenteCashingService cacheM;
+    private GerenteCashingService cacheG;
     
     @Autowired
     private GerenteService servG;
@@ -69,6 +73,9 @@ public class GerenteController {
     
     
     
+    
+    
+    
     @Operation(description = "Esta operação possibilita na busca paginada dos gerentes",
     			summary = "busca paginada", tags="Busca paginada")
     @GetMapping(value="/paginada")
@@ -87,6 +94,38 @@ public class GerenteController {
     
     
     }
+    
+    
+    
+    @Operation(description = "Esta operação retorna todas as motos existentes "
+      		+ "utilizando a estratégia de caching",
+      		summary = "Retornar todas as motos utilizando caching", tags = "Retorno de Informação")
+    	@GetMapping("/cacheable")
+    	public List<Gerente>retornaTodasMotosCacheables(){
+    	List<Gerente> todos_Gerentes =  cacheG.findAll();
+    		
+    		for(Gerente g : todos_Gerentes) {
+    			g.add(linkTo(methodOn(GerenteController.class)
+    			.retornaGerentePorID(g.getId_gerente()))
+    			.withRel("Quer saber mais detalhes sobre ao gerente " + g.getId_gerente() + "?"));
+    			
+    			g.add(linkTo(methodOn(GerenteController.class)
+    					.retornaGerentePaginados(null, null))
+    					.withRel("Quer retornar Gerentes paginados?"));
+    			
+    			g.add(linkTo(methodOn(GerenteController.class)
+    					.inserirGerente(null)).withRel("Quer inserir um novo gerente"));
+    			
+    			g.add(linkTo(methodOn(GerenteController.class)
+    					.atualizarGerentePorId(g.getId_gerente(), null))
+    					.withRel("Quer atualizar a moto " + g.getId_gerente() +"?"));
+    		}
+    		
+    		return todos_Gerentes;
+    		
+    	}
+    	
+    
     
     
     
