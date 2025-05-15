@@ -2,6 +2,8 @@ package com.lugiatracker.model;
 
 
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +18,7 @@ import lombok.Data;
 @Entity
 @Table(name = "TBL_MOTO")
 @Data
-public class Moto {
+public class Moto extends RepresentationModel<Moto> {
 
 	@Id
 	@Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Formato de chassi inválido. O chassi deve ter 17 caracteres alfanuméricos.")
