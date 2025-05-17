@@ -119,6 +119,26 @@ public class MotoController {
 	}
 	
 	
+	
+	@Operation(description = "Busca motos filtrando por modelo, placa e setor (parâmetros opcionais)",
+	           summary = "Busca filtrada de motos", tags = "Busca filtrada")
+	@GetMapping("/buscar")
+	public ResponseEntity<List<Moto>> buscarMotos(
+	        @RequestParam(required = false, defaultValue = "") String modelo,
+	        @RequestParam(required = false, defaultValue = "") String placa,
+	        @RequestParam(required = false, defaultValue = "") String setor) {
+	    
+	    List<Moto> motosFiltradas = repM.findByModelo(
+	        modelo, placa, setor);
+	    
+	    if(motosFiltradas.isEmpty()) {
+	        return ResponseEntity.noContent().build();
+	    }
+	    
+	    return ResponseEntity.ok(motosFiltradas);
+	}
+	
+	
 	@PostMapping(value="/inserir")
 	public Moto adicionarMoto(@RequestBody Moto moto) {
 		repM.save(moto);

@@ -133,7 +133,7 @@ public class GerenteController {
             summary = "Inserir um novo gerente", tags = "Inserção de Informação")
     @PostMapping(value = "/inserir")
     @ResponseStatus(HttpStatus.CREATED)
-    public Gerente inserirGerente( @Valid @RequestBody Gerente gerente) {
+    public Gerente inserirGerente( @RequestBody  @Valid Gerente gerente) {
         if (gerente.getPatio() != null && gerente.getPatio().getId_patio() != null) {
             Optional<Patio> patioOptional = patioRepository.findById(gerente.getPatio().getId_patio());
             if (patioOptional.isPresent()) {

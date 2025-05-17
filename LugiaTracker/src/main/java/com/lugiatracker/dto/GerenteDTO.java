@@ -1,14 +1,25 @@
 package com.lugiatracker.dto;
 
 import org.springframework.hateoas.RepresentationModel;
+
 import com.lugiatracker.model.Gerente;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class GerenteDTO extends RepresentationModel<GerenteDTO> {
 
     private Integer id_gerente;
+
+    @NotBlank(message = "O nome é obrigatório")
+    @Size(min = 3, max = 50, message = "O nome deve ter entre 3 e 50 caracteres")
     private String nome;
+    
+    @Email(message = "Email inválido")
+    @NotBlank(message = "O email é obrigatório")
     private String login;
     private String senha;
 

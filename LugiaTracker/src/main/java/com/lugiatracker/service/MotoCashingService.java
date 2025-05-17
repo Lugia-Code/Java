@@ -32,7 +32,7 @@ public class MotoCashingService {
 	}
 	
 
-	@Cacheable(value = "BuscaPorId", key= "#id_gerente")
+	@Cacheable(value = "BuscaPorIdMoto", key= "#chassi")
 	public Optional<Moto> findById(String chassi){
 		return repM.findById(chassi);
 	}
