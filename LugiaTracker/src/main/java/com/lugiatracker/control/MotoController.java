@@ -128,7 +128,7 @@ public class MotoController {
 	        @RequestParam(required = false, defaultValue = "") String placa,
 	        @RequestParam(required = false, defaultValue = "") String setor) {
 	    
-	    List<Moto> motosFiltradas = repM.findByModelo(
+	    List<Moto> motosFiltradas = repM.buscarPorModeloEPlaca(
 	        modelo, placa, setor);
 	    
 	    if(motosFiltradas.isEmpty()) {
