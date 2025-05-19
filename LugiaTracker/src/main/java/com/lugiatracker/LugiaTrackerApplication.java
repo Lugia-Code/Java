@@ -15,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class LugiaTrackerApplication {
 
 	public static void main(String[] args) {
-		com.lugiatracker.config.DotenvConfig.loadEnv();
+		//com.lugiatracker.config.DotenvConfig.loadEnv();
 		SpringApplication.run(LugiaTrackerApplication.class, args);
 	}
 

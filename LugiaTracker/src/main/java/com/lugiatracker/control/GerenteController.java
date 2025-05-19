@@ -70,7 +70,20 @@ public class GerenteController {
     }
 
     
+    @Operation(description = "Esta operação retorna todos os gerentes ordenados por nome",
+            summary = "Listar gerentes em ordem alfabética", tags = "Busca ordenada")
+ @GetMapping("/ordenados")
+ public List<Gerente> listarOrdenados() {
+     return repG.buscarTodosOrdenadosPorNome();
+ }
     
+    
+    @Operation(description = "Esta operação retorna os gerentes que possuem o login parcialmente igual ao informado",
+            summary = "Buscar gerentes por login parcial", tags = "Busca filtrada")
+ @GetMapping("/buscar-login")
+ public List<Gerente> buscarPorLogin(@RequestParam String login) {
+     return repG.buscarPorLoginParcial(login);
+ }
     
     
     

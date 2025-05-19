@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lugiatracker.dto.GerenteDTO;
 import com.lugiatracker.dto.MotoDTO;
 import com.lugiatracker.model.Moto;
 import com.lugiatracker.repository.MotoRepository;
@@ -30,6 +29,7 @@ import com.lugiatracker.service.MotoService;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
@@ -185,5 +185,25 @@ public class MotoController {
 		}
 	}
 	
+	
+	   @Operation(
+		        summary = "Buscar motos por modelo, placa e setor",
+		        description = "Retorna uma lista de motos filtradas por modelo, placa e setor. " +
+		                      "Se modelo ou placa forem vazios, não serão filtrados."
+		    )
+		    @GetMapping("/buscarPorModeloEPlaca")
+		    public ResponseEntity<List<Moto>> buscarPorModeloEPlaca(
+		        @Parameter(description = "Modelo da moto (opcional, vazio para ignorar)")
+		        @RequestParam(defaultValue = "") String modelo,
+
+		        @Parameter(description = "Placa da moto (opcional, vazio para ignorar)")
+		        @RequestParam(defaultValue = "") String placa,
+
+		        @Parameter(description = "Setor da moto (opcional)")
+		        @RequestParam(required = false) String setor
+		    ) {
+		        List<Moto> motos = repM.buscarPorModeloEPlaca(modelo, placa, setor);
+		        return ResponseEntity.ok(motos);
+		    }
 	
 }
