@@ -3,8 +3,8 @@ FROM eclipse-temurin:17-jdk-alpine AS build
 
 WORKDIR /app
 
-# Copia os arquivos de build (pom.xml + código)
-COPY pom.xml .
+# Copia os arquivos de build
+COPY pom.xml . 
 COPY src ./src
 
 # Faz o build do projeto
@@ -14,6 +14,12 @@ RUN ./mvnw clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
+
+# Cria um usuário sem privilégios
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Usa esse usuário para rodar a aplicação
+USER appuser
 
 # Copia o jar construído do estágio anterior
 COPY --from=build /app/target/*.jar app.jar
