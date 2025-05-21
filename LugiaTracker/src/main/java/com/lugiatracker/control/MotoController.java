@@ -170,7 +170,8 @@ public class MotoController {
 	}
 	
 	
-	
+	@Operation(description = "deletando as  motos por Id ",
+	           summary = "exclusão filtrada de motos", tags = "Remoção de dados")
 	@DeleteMapping(value="/excluir/{chassi}")
 	public Moto DeletaMoto(@PathVariable String chassi) {
 		
