@@ -4,9 +4,10 @@ INSERT INTO TBL_PATIO (id_patio, nome, localizacao)VALUES(2, 'Patio Leste', 'Zon
 INSERT INTO TBL_PATIO (id_patio, nome, localizacao)VALUES(3, 'Patio Oeste', 'Zona Oeste');
 
 -- Inserindo dados na tabela TBL_GERENTE
-INSERT INTO TBL_GERENTE (id_gerente, nome, login, senha, id_patio)VALUES(1, 'Carlos Silva', 'carlos.silva@email.com', 'Senha@123', 1);
 
-INSERT INTO TBL_GERENTE (id_gerente, nome, login, senha, id_patio)VALUES(2, 'Ana Souza', 'ana.souza@email.com', 'Senha@123', 2);
+INSERT INTO TBL_GERENTE (nome, login, senha, id_patio) VALUES ('Carlos Silva', 'carlos.silva@email.com', 'Senha@123', 1);
+INSERT INTO TBL_GERENTE (nome, login, senha, id_patio) VALUES ('Ana Souza', 'ana.souza@email.com', 'Senha@123', 2);
+
 
 -- Inserindo dados na tabela TBL_MOTO
 

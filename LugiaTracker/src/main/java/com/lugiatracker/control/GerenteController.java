@@ -112,9 +112,9 @@ public class GerenteController {
     
     @Operation(description = "Esta operação retorna todas as motos existentes "
       		+ "utilizando a estratégia de caching",
-      		summary = "Retornar todas as motos utilizando caching", tags = "Retorno de Informação")
+      		summary = "Retornar todas as gerente utilizando caching", tags = "Retorno de Informação")
     	@GetMapping("/cacheable")
-    	public List<Gerente>retornaTodasMotosCacheables(){
+    	public List<Gerente>retornaTodosGerentesCacheables(){
     	List<Gerente> todos_Gerentes =  cacheG.findAll();
     		
     		for(Gerente g : todos_Gerentes) {
@@ -146,7 +146,11 @@ public class GerenteController {
             summary = "Inserir um novo gerente", tags = "Inserção de Informação")
     @PostMapping(value = "/inserir")
     @ResponseStatus(HttpStatus.CREATED)
-    public Gerente inserirGerente( @RequestBody  @Valid Gerente gerente) {
+    public Gerente inserirGerente(@RequestBody @Valid Gerente gerente) {
+
+       
+        gerente.setId_gerente(null);
+
         if (gerente.getPatio() != null && gerente.getPatio().getId_patio() != null) {
             Optional<Patio> patioOptional = patioRepository.findById(gerente.getPatio().getId_patio());
             if (patioOptional.isPresent()) {
@@ -155,10 +159,11 @@ public class GerenteController {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
                     "Pátio com ID " + gerente.getPatio().getId_patio() + " não encontrado.");
             }
-        } 
+        }
 
         return repG.save(gerente);
     }
+
 
     
     
@@ -171,11 +176,15 @@ public class GerenteController {
 
         if (op.isPresent()) {
             Gerente conf_gerente = op.get();
+
+            // Atualiza os campos
             conf_gerente.setNome(gerente.getNome());
             conf_gerente.setLogin(gerente.getLogin());
             conf_gerente.setSenha(gerente.getSenha());
 
-            
+          
+            conf_gerente.setId_gerente(id);
+
             Patio patioEnviado = gerente.getPatio();
             if (patioEnviado != null && patioEnviado.getId_patio() != null) {
                 Optional<Patio> patioOptional = patioRepository.findById(patioEnviado.getId_patio());
@@ -185,7 +194,7 @@ public class GerenteController {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Pátio com ID " + patioEnviado.getId_patio() + " não existe.");
                 }
             } else {
-                conf_gerente.setPatio(null); 
+                conf_gerente.setPatio(null);
             }
 
             return repG.save(conf_gerente);
@@ -194,6 +203,7 @@ public class GerenteController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Gerente com ID " + id + " não encontrado para atualização.");
         }
     }
+
 
     
     @DeleteMapping(value = "/excluir/{id}")

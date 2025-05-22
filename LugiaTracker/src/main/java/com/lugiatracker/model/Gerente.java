@@ -17,9 +17,10 @@ import jakarta.validation.constraints.Pattern;
 @Table(name="TBL_GERENTE")
 public class Gerente extends RepresentationModel<Gerente> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_gerente;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id_gerente;
+
 
     @NotEmpty(message= "Não é permitido a inserção de um gerente sem seu nome.")
     @Column(name="nome")

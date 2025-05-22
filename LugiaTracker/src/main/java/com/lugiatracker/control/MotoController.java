@@ -49,7 +49,7 @@ public class MotoController {
 	@Autowired
 	private MotoService servM;
 	
-	@Hidden
+	
 	@Operation(description="Essa operação busca e disponibiliza todas as motos",
 			summary =  "Busca todas as motos", tags = "Localização de dados")
 	@GetMapping
