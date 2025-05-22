@@ -22,8 +22,44 @@ public class GerenteDTO extends RepresentationModel<GerenteDTO> {
     @NotBlank(message = "O email é obrigatório")
     private String login;
     private String senha;
+    
+    
+    
+    
 
-    public GerenteDTO(Gerente gerente) {
+    public Integer getId_gerente() {
+		return id_gerente;
+	}
+
+	public void setId_gerente(Integer id_gerente) {
+		this.id_gerente = id_gerente;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public GerenteDTO(Gerente gerente) {
         this.id_gerente = gerente.getId_gerente();
         this.nome = gerente.getNome();
         this.login = gerente.getLogin();
@@ -36,4 +72,17 @@ public class GerenteDTO extends RepresentationModel<GerenteDTO> {
         this.login = login;
         this.senha = senha;
     }
+
+	public GerenteDTO() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "GerenteDTO [id_gerente=" + id_gerente + ", nome=" + nome + ", login=" + login + ", senha=" + senha
+				+ "]";
+	}
+    
+    
+	
 }
