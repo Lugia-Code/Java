@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import com.lugiatracker.model.Gerente;
+
 import com.lugiatracker.model.Moto;
 import com.lugiatracker.repository.MotoRepository;
 
@@ -33,8 +33,8 @@ public class MotoCashingService {
 	
 
 	@Cacheable(value = "BuscaPorIdMoto", key= "#chassi")
-	public Optional<Moto> findById(String chassi){
-		return repM.findById(chassi);
+	public Optional<Moto> findById(Long id){
+		return repM.findById(id);
 	}
 	
 	@Cacheable(value = "buscaPaginada", key = "#req")

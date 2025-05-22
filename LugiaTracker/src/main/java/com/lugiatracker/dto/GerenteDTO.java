@@ -7,9 +7,9 @@ import com.lugiatracker.model.Gerente;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-@Data
+
+
 public class GerenteDTO extends RepresentationModel<GerenteDTO> {
 
     private Integer id_gerente;

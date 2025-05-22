@@ -3,6 +3,7 @@ package com.lugiatracker.control;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.lugiatracker.dto.MotoDTO;
 import com.lugiatracker.model.Moto;
@@ -27,16 +30,15 @@ import com.lugiatracker.repository.MotoRepository;
 import com.lugiatracker.service.MotoCashingService;
 import com.lugiatracker.service.MotoService;
 
+
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value= "/motos")
 public class MotoController {
-	
 	
 	@Autowired
 	private MotoRepository repM;
@@ -44,167 +46,135 @@ public class MotoController {
 	@Autowired
 	private MotoCashingService cacheM;
 	
-	
 	@Autowired
 	private MotoService servM;
 	
-	
-	
-	
 	@Hidden
-	@Operation(description="essa operação busca e disponibiliza todas as motos",
+	@Operation(description="Essa operação busca e disponibiliza todas as motos",
 			summary =  "Busca todas as motos", tags = "Localização de dados")
 	@GetMapping
-	public List<Moto>retornaTodasMotos() {
+	public List<Moto> retornaTodasMotos() {
 		return repM.findAll();
 	}
 	
-	
-  @Operation(description = "Esta operação possibilita na busca paginada dos gerentes",
-  			summary = "busca paginada", tags="Busca paginada")
-  @GetMapping(value="/paginada")
-  public ResponseEntity<Page<MotoDTO>> retornaMotosPaginadas(
-  		@RequestParam(value= "page", defaultValue = "0")Integer page,
-  		@RequestParam(value= "size", defaultValue = "7")Integer size){
+	@Operation(description = "Esta operação possibilita a busca paginada das motos",
+  			summary = "Busca paginada", tags="Busca paginada")
+	@GetMapping(value="/paginada")
+	public ResponseEntity<Page<MotoDTO>> retornaMotosPaginadas(
+  		@RequestParam(value= "page", defaultValue = "0") Integer page,
+  		@RequestParam(value= "size", defaultValue = "7") Integer size){
   	
-  	PageRequest req = PageRequest.of(page,size);
-  	Page<MotoDTO> moto_paginado = servM.paginar(req);
-  
-  	moto_paginado.forEach(g ->{
-  		
-  	});
+	  	PageRequest req = PageRequest.of(page, size);
+	  	Page<MotoDTO> moto_paginado = servM.paginar(req);
+	  	
+	  	// Aqui pode adicionar links se quiser, por exemplo:
+	  	// moto_paginado.forEach(motoDTO -> { ... });
 
-  	return ResponseEntity.ok(moto_paginado);
-  
-  
-  }
+	  	return ResponseEntity.ok(moto_paginado);
+	}
 	
-	
-  @Operation(description = "Esta operação retorna todas as motos existentes "
-  		+ "utilizando a estratégia de caching",
+	@Operation(description = "Esta operação retorna todas as motos existentes utilizando caching",
   		summary = "Retornar todas as motos utilizando caching", tags = "Retorno de Informação")
 	@GetMapping("/cacheable")
-	public List<Moto>retornaTodasMotosCacheables(){
-	List<Moto> todas_motos =  cacheM.findAll();
+	public List<Moto> retornaTodasMotosCacheables(){
+		List<Moto> todas_motos = cacheM.findAll();
 		
 		for(Moto m : todas_motos) {
 			m.add(linkTo(methodOn(MotoController.class)
-			.retornaMotoPorID(m.getChassi_moto()))
-			.withRel("Quer saber mais detalhes sobre a moto " + m.getChassi_moto() + "?"));
+					.retornaMotoPorID(m.getId()))
+					.withRel("Quer saber mais detalhes sobre a moto " + m.getChassimoto() + "?"));
 			
 			m.add(linkTo(methodOn(MotoController.class)
 					.retornaMotosPaginadas(null, null))
-					.withRel("Quer retornar músicas paginadas?"));
+					.withRel("Quer retornar motos paginadas?"));
 			
 			m.add(linkTo(methodOn(MotoController.class)
-					.adicionarMoto(null)).withRel("Quer inserir uma nova moto"));
+					.adicionarMoto(null))
+					.withRel("Quer inserir uma nova moto"));
 			
 			m.add(linkTo(methodOn(MotoController.class)
-					.atualizaMotoPorId(m.getChassi_moto(), null))
-					.withRel("Quer atualizar a moto " + m.getChassi_moto() +"?"));
+					.atualizaMotoPorId(m.getId(), null))
+					.withRel("Quer atualizar a moto " + m.getChassimoto() +"?"));
 		}
 		
 		return todas_motos;
-		
+	}
+	
+	@Operation(description = "Esta operação busca a moto por seu ID",
+			summary = "Busca moto por ID", tags = "Localização de dados")
+	@GetMapping(value="/{id}")
+	public Moto retornaMotoPorID(@PathVariable Long id) {
+		return repM.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Moto com ID " + id + " não encontrada."));
 	}
 	
 	
+
 	
 	
-	@Operation(description = "Esta operação busca a moto por seu chassi"
-			,summary = "Busca moto por ID", tags = "Localização de dados")
-	@GetMapping(value="/{chassi}")
-	public Moto retornaMotoPorID(@PathVariable String chassi) {
-		return repM.findById(chassi).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Gerente com ID " + chassi + " não encontrado."));
+	@PostMapping(value = "/inserir")
+	public ResponseEntity<MotoDTO> adicionarMoto(@Valid @RequestBody MotoDTO motoDTO){
+	    Moto moto = new Moto();
+	    moto.setChassimoto(motoDTO.getChassimoto());
+	    moto.setModelo(motoDTO.getModelo());
+	    moto.setPlaca(motoDTO.getPlaca());
+	    
+	   
+	    Moto motoSalva = repM.save(moto);
+
+	    
+	    MotoDTO motoSalvaDTO = new MotoDTO(motoSalva);
+	  
+	    URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+	            .path("/{id}")
+	            .buildAndExpand(motoSalva.getId())
+	            .toUri();
+	    return ResponseEntity.created(uri).body(motoSalvaDTO);
 	}
 	
-	
-	
-	@Operation(description = "Busca motos filtrando por modelo, placa e setor (parâmetros opcionais)",
-	           summary = "Busca filtrada de motos", tags = "Busca filtrada")
-	@GetMapping("/buscar")
-	public ResponseEntity<List<Moto>> buscarMotos(
-	        @RequestParam(required = false, defaultValue = "") String modelo,
-	        @RequestParam(required = false, defaultValue = "") String placa,
-	        @RequestParam(required = false, defaultValue = "") String setor) {
-	    
-	    List<Moto> motosFiltradas = repM.buscarPorModeloEPlaca(
-	        modelo, placa, setor);
-	    
-	    if(motosFiltradas.isEmpty()) {
-	        return ResponseEntity.noContent().build();
+	@PutMapping("/atualizar/{id}")
+	public ResponseEntity<MotoDTO> atualizaMotoPorId(
+	        @PathVariable Long id,
+	        @Valid @RequestBody MotoDTO motoDTO) {
+
+	    Optional<Moto> op = repM.findById(id);
+
+	    if (op.isPresent()) {
+	        Moto motoExistente = op.get();
+
+	        
+	        motoExistente.setModelo(motoDTO.getModelo());
+	        motoExistente.setPlaca(motoDTO.getPlaca());
+	        motoExistente.setChassimoto(motoDTO.getChassimoto());
+
+	        Moto motoAtualizada = repM.save(motoExistente);
+
+	        MotoDTO dtoAtualizada = new MotoDTO(motoAtualizada);
+
+	      
+	        dtoAtualizada.add(linkTo(methodOn(MotoController.class).retornaMotoPorID(id)).withSelfRel());
+	        dtoAtualizada.add(linkTo(methodOn(MotoController.class).atualizaMotoPorId(id, motoDTO)).withRel("atualizar"));
+
+	        return ResponseEntity.ok(dtoAtualizada);
+	    } else {
+	        return ResponseEntity.notFound().build();
 	    }
-	    
-	    return ResponseEntity.ok(motosFiltradas);
 	}
-	
-	
-	@PostMapping(value="/inserir")
-	public Moto adicionarMoto(@RequestBody Moto moto) {
-		repM.save(moto);
-		moto.add(linkTo(methodOn(MotoController.class)
-				.retornaMotoPorID(moto.getChassi_moto())).withRel("quer atualizar alguma moto?"));
-		
-		return moto;
 
-	}
 	
-	@Operation(description = "Esta operação vai atualizar a moto por seu chassi")
-	@PutMapping("/atualizar/{chassi}")
-	public Moto atualizaMotoPorId(@PathVariable String chassi, @RequestBody Moto moto) {
+	@Operation(description = "Deletando as motos por ID",
+	           summary = "Exclusão filtrada de motos", tags = "Remoção de dados")
+	@DeleteMapping(value="/excluir/{id}")
+	public ResponseEntity<Void> deletaMoto(@PathVariable Long id) {
 		
-		Optional<Moto> op = repM.findById(chassi);
-		
-		if (op.isPresent()) {
-			Moto m_antiga = op.get();
-			m_antiga.setModelo(moto.getModelo());
-			m_antiga.setPlaca(moto.getPlaca());
-			m_antiga.setSetor(moto.getSetor());
-			m_antiga.setModelo(moto.getModelo());
+		Optional<Moto> op = repM.findById(id);
 			
-			repM.save(m_antiga);
-			return m_antiga;
-		}else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
-	}
-	
-	
-	@Operation(description = "deletando as  motos por Id ",
-	           summary = "exclusão filtrada de motos", tags = "Remoção de dados")
-	@DeleteMapping(value="/excluir/{chassi}")
-	public Moto DeletaMoto(@PathVariable String chassi) {
-		
-	Optional<Moto> op = repM.findById(chassi);
-		
 		if(op.isPresent()) {
-			Moto m_remover = op.get();
-			repM.delete(m_remover);
-			return m_remover;
+			repM.delete(op.get());
+			return ResponseEntity.noContent().build();
 		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 	}
-	
-	
-	   @Operation(
-		        summary = "Buscar motos por modelo, placa e setor",
-		        description = "Retorna uma lista de motos filtradas por modelo, placa e setor. " +
-		                      "Se modelo ou placa forem vazios, não serão filtrados."
-		    )
-		    @GetMapping("/buscarPorModeloEPlaca")
-		    public ResponseEntity<List<Moto>> buscarPorModeloEPlaca(
-		        @Parameter(description = "Modelo da moto (opcional, vazio para ignorar)")
-		        @RequestParam(defaultValue = "") String modelo,
-
-		        @Parameter(description = "Placa da moto (opcional, vazio para ignorar)")
-		        @RequestParam(defaultValue = "") String placa,
-
-		        @Parameter(description = "Setor da moto (opcional)")
-		        @RequestParam(required = false) String setor
-		    ) {
-		        List<Moto> motos = repM.buscarPorModeloEPlaca(modelo, placa, setor);
-		        return ResponseEntity.ok(motos);
-		    }
 	
 }

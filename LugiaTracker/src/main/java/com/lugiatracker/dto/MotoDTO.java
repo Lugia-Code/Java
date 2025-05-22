@@ -2,57 +2,90 @@ package com.lugiatracker.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lugiatracker.model.Moto;
-import com.lugiatracker.model.Setor;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-
-
-@Data
-public class MotoDTO extends RepresentationModel<Moto> {
-
+public class MotoDTO extends RepresentationModel<MotoDTO> {
 	
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long id; 
 
     @NotBlank(message = "O chassi é obrigatório")
-	private String chassi_moto;
-    
+    @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Formato de chassi inválido. Deve ter 17 caracteres alfanuméricos.")
+    @JsonProperty("chassimoto")
+    private String chassimoto;
+
     @NotBlank(message = "O modelo é obrigatório")
     @Size(min = 2, max = 30, message = "O modelo deve ter entre 2 e 30 caracteres")
-	private String modelo;
-    
-    
-    @Size(min = 7, max = 8, message = "A placa deve ter entre 7 e 8 caracteres")
-	private String placa;
-	
-	
-    @NotNull(message = "O setor é obrigatório")
-	private Setor setor;
-	
-	
-	
-	public MotoDTO(String chassi_moto, String modelo, String placa, Setor setor) {
+    private String modelo;
+
+    @NotBlank(message = "A placa é obrigatória")
+    @Pattern(regexp = "^[A-Z]{3}-[0-9]{4}$", message = "Formato da placa inválido. Exemplo válido: ABC-1234")
+    private String placa;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getChassimoto() {
+		return chassimoto;
+	}
+
+	public void setChassimoto(String chassimoto) {
+		this.chassimoto = chassimoto;
+	}
+
+	public String getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+
+	public String getPlaca() {
+		return placa;
+	}
+
+	public void setPlaca(String placa) {
+		this.placa = placa;
+	}
+
+	public MotoDTO(Long id,
+			@NotBlank(message = "O chassi é obrigatório") @Pattern(regexp = "^[A-HJ-NPR-Z0-9]{17}$", message = "Formato de chassi inválido. Deve ter 17 caracteres alfanuméricos.") String chassimoto,
+			@NotBlank(message = "O modelo é obrigatório") @Size(min = 2, max = 30, message = "O modelo deve ter entre 2 e 30 caracteres") String modelo,
+			@NotBlank(message = "A placa é obrigatória") @Pattern(regexp = "^[A-Z]{3}-[0-9]{4}$", message = "Formato da placa inválido. Exemplo válido: ABC-1234") String placa) {
 		super();
-		this.chassi_moto = chassi_moto;
+		this.id = id;
+		this.chassimoto = chassimoto;
 		this.modelo = modelo;
 		this.placa = placa;
-		this.setor = setor;
 	}
 
+	public MotoDTO() {
+		super();
+	}
 
+	
+
+	@Override
+	public String toString() {
+		return "MotoDTO [id=" + id + ", chassimoto=" + chassimoto + ", modelo=" + modelo + ", placa=" + placa + "]";
+	}
 
 	public MotoDTO(Moto moto) {
-		this.chassi_moto = moto.getChassi_moto();
-		this.modelo = moto.getModelo();
-		this.placa= moto.getPlaca();
-		this.setor = moto.getSetor();
+	    this.id = moto.getId();
+	    this.chassimoto = moto.getChassimoto();
+	    this.modelo = moto.getModelo();
+	    this.placa = moto.getPlaca();
 	}
-	
-	
-	
-	
-	
+   
 }
