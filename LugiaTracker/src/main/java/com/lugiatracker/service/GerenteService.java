@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lugiatracker.dto.GerenteDTO;
+import com.lugiatracker.dto.FuncionariosDTO;
 import com.lugiatracker.model.Gerente;
 import com.lugiatracker.repository.GerenteRepository;
 
@@ -23,10 +23,10 @@ public class GerenteService {
 	
 	
 	@Transactional(readOnly = true)
-	public Page<GerenteDTO>paginar(PageRequest req){
+	public Page<FuncionariosDTO>paginar(PageRequest req){
 		
 		Page<Gerente> gerentes = cacheG.findAll(req);
 		
-		return gerentes.map(i -> new GerenteDTO(i));
+		return gerentes.map(i -> new FuncionariosDTO(i));
 	}
 }

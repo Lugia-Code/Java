@@ -10,14 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.lugiatracker.model.Gerente;
-import com.lugiatracker.repository.GerenteRepository;
+import com.lugiatracker.repository.FuncionariosRepository;
 
 
 @Service
 public class GerenteCashingService {
 
 	@Autowired
-	private GerenteRepository repG;
+	private FuncionariosRepository repG;
 	
 	
 	@Cacheable(value= "Gerentes")
