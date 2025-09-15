@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Tags</title>
+</head>
+<body>
+    <h1>Lista de Tags</h1>
+    <a th:href="@{/tags/novo}">Nova Tag</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Chassi</th>
+            <th>Ações</th>
+        </tr>
+        <tr th:each="tag : ${tags}">
+            <td th:text="${tag.codigoTag}"></td>
+            <td th:text="${tag.status}"></td>
+            <td th:text="${tag.chassi}"></td>
+            <td>
+                <a th:href="@{'/tags/editar/' + ${tag.codigoTag}}">Editar</a> |
+                <a th:href="@{'/tags/deletar/' + ${tag.codigoTag}}">Deletar</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
