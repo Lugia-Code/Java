@@ -1,47 +1,51 @@
 package com.lugiatracker.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "funcao")
 public class Funcao {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Enumerated(EnumType.STRING)
-	private EnumFuncao nome;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Funcao() {
+    @Enumerated(EnumType.STRING)
+    private EnumFuncao nome;
 
-	}
+    @ManyToMany(mappedBy = "funcoes")
+    private Set<Usuario> usuarios = new HashSet<>();
 
-	public Funcao(Long id, EnumFuncao nome) {
-		super();
-		this.id = id;
-		this.nome = nome;
-	}
+    public Funcao() {}
 
-	public Long getId() {
-		return id;
-	}
+    public Funcao(Long id, EnumFuncao nome) {
+        this.id = id;
+        this.nome = nome;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public EnumFuncao getNome() {
-		return nome;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNome(EnumFuncao nome) {
-		this.nome = nome;
-	}
+    public EnumFuncao getNome() {
+        return nome;
+    }
 
+    public void setNome(EnumFuncao nome) {
+        this.nome = nome;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
 }
