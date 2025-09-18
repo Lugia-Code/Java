@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lugiatracker.model.Usuario;
 
-public interface UsuarioRepository extends JpaRepository<Usuario, Long > {
-	
-	Optional<Usuario> findByNomePerfil(String nome);
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+    Optional<Usuario> findByNome(String nome);
 }

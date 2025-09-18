@@ -14,20 +14,24 @@ import com.lugiatracker.model.Usuario;
 import com.lugiatracker.repository.UsuarioRepository;
 
 
-
 @Service
 public class FuncionarioService implements UserDetailsService {
-	
-	@Autowired
-	private UsuarioRepository repU;
+    
+    @Autowired
+    private UsuarioRepository repU;
 
-	@Override
-	public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
-		
-		Usuario usuario = repU.findByNomePerfil(nome).orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!") );
-		
-		return new User(usuario.findByNomePerfil(nome),usuario.getSenha(),usuario.getFuncoes().stream()
-				.map(funcao -> new SimpleGrantedAuthority(funcao.getNome().toString())).collect(Collectors.toList()));
-		
-	}
+    @Override
+    public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
+        
+        Usuario usuario = repU.findByNome(nome)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+        
+        return new User(
+                usuario.getNome(),
+                usuario.getSenha(),
+                usuario.getFuncoes().stream()
+                        .map(funcao -> new SimpleGrantedAuthority(funcao.getNome().toString()))
+                        .collect(Collectors.toList())
+        );
+    }
 }
