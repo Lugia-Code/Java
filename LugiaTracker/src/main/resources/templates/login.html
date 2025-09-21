@@ -1,0 +1,34 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Tela de Login')}" />
+  <body>
+    <div class="container" style="align-items: center; text-align: center;">
+        <div class="row">
+            <h1>Tracking Code</h1>
+        </div>
+        
+		<div th:if="${param.logout}">
+			<p style="color: green;"><b>Você saiu com sucesso do sistema</b></p>
+		</div>
+        
+        <div class="row">
+            
+            <form  th:action="@{/login}" method="post">
+				Nome do funcionario: <input class="form-control" type="text" id="username" name="username"><br>
+				Senha: <input class="form-control" type="password" id="password" name="password"><br>
+				
+				<div th:if="${param.falha}">
+					<p style="color:red;"><b>nome do funcionario ou senha inválidos</b></p>
+				</div><br>
+				
+            	<button type="submit">Logar</button>
+            </form>
+            
+        </div>
+        
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>

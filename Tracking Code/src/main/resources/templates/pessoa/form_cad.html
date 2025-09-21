@@ -1,0 +1,52 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Cadastrar Usuário')}" />
+<body>
+
+<div th:replace="~{fragmentos :: form-logout}" />
+
+<div class="container">
+    <div class="row">
+        <h1>Cadastrar Funcionario</h1>
+    </div>
+    <div class="row">
+        <form th:object="${usuario}" action="/insere_usuario" method="post">
+
+            <!-- Nome do Perfil -->
+            Nome do Funcionario: 
+            <input class="form-control" type="text" th:field="*{nomePerfil}" 
+                   th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{nomePerfil}"></div><br>
+
+            <!-- Senha -->
+            Senha: 
+            <input class="form-control" type="password" th:field="*{senha}" 
+                   th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{senha}"></div><br>
+
+      
+
+            <!-- Função -->
+            Função:
+            <select class="form-select" name="id_funcao">
+                <option th:each="funcao : ${lista_funcoes}" 
+                        th:value="${funcao.id}" 
+                        th:text="${funcao.nome}"></option>
+            </select><br><br>
+
+            <!-- CSRF -->
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+    <div class="row">
+        <a href="/index">Voltar para a tela inicial</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" 
+        crossorigin="anonymous"></script>
+</body>
+</html>

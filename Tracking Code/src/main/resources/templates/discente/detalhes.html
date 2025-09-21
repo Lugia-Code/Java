@@ -1,0 +1,65 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Detalhes do Discente')}" />
+
+<body>
+	
+	<div th:replace="~{fragmentos :: form-logout}" />
+	
+	<div class="container">
+		<div class="row">
+			<h1>Detalhes do Discente</h1>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-hover">
+
+					<tr>
+						<td>Nome</td>
+						<td><span th:text="${discente.pessoa.nome}"></span></td>
+					</tr>
+					<tr>
+						<td>CPF</td>
+						<td><span th:text="${discente.pessoa.cpf}"></span></td>
+					</tr>
+					<tr>
+						<td>Nacionalidade</td>
+						<td><span th:text="${discente.pessoa.nacionalidade.descricao}"></span></td>
+					</tr>
+					<tr>
+						<td>Data de Nascimento</td>
+						<td><span th:text="${#temporals.format(discente.pessoa.dataNascimento,'dd/MM/yyyy')}"></span></td>
+					</tr>
+					<tr>
+						<td>E-mail</td>
+						<td><span th:text="${discente.pessoa.email}"></td>
+					</tr>
+					<tr>
+						<td>RM</td>
+						<td><span th:text="${discente.rm}"></td>
+					</tr>
+					<tr>
+						<td>Status</td>
+						<td><span th:text="${discente.status.descricao}"></td>
+					</tr>
+					<tr>
+						<td>Nível</td>
+						<td><span th:text="${discente.nivel.descricao}"></td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<a href="/index">Lista de Discentes</a>
+		</div>
+	</div>
+
+	<!-- Option 1: Bootstrap Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+		crossorigin="anonymous"></script>
+</body>
+
+</html>

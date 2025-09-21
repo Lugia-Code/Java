@@ -1,0 +1,52 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos :: cabecalho('Editar Discente')}" />
+  <body>
+	  <div th:replace="~{fragmentos :: form-logout}" />
+    <div class="container">
+        <div class="row">
+            <h1>Editar Discente</h1>
+        </div>
+        <div class="row">
+            
+            <form th:object="${discente}" th:action="@{/discente/atualizar/{idDiscente}(idDiscente = ${discente.id})}" method="post">
+            	Nome: <input class="form-control" type="text" th:field="*{pessoa.nome}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{pessoa.nome}"></div><br>
+            	CPF: <input class="form-control" type="text" th:field="*{pessoa.cpf}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{pessoa.cpf}"></div><br>
+            	Data Nascimento: 
+            	<input class="form-control" type="date" th:field="*{pessoa.dataNascimento}" 
+            	th:value="*{pessoa.dataNascimento}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{pessoa.dataNascimento}"></div><br>
+            	Nacionalidade:
+            	<select class="form-select" th:field="*{pessoa.nacionalidade}">
+            		<option th:each="nac : ${lista_nac}" th:value="${nac}" th:text="${nac.descricao}" />
+            	</select>
+            	E-mail:
+            	<input class="form-control" type="text" th:field="*{pessoa.email}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{pessoa.email}"></div><br>
+            	RM: <input class="form-control" type="text" th:field="*{rm}" th:errorclass="is-invalid">
+            	<div class="invalid-feedback" th:errors="*{rm}"></div><br>
+            	Status:
+            	<select class="form-select" th:field="*{status}">
+            		<option th:each="status : ${lista_status}" th:value="${status}" th:text="${status.descricao}" />
+            	</select>
+            	Nível:
+            	<select class="form-select" th:field="*{nivel}">
+            		<option th:each="nivel : ${lista_niveis}" th:value="${nivel}" th:text="${nivel.descricao}" />
+            	</select>
+            	<input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+            	<button type="submit">Editar Discente</button>
+            </form>
+            
+        </div>
+        <div class="row">
+            <a href="/index">Listar discentes</a>
+        </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>
