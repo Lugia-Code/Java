@@ -1,10 +1,13 @@
 package br.com.fiap.universidade_fiap.control;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +39,21 @@ public class UsuarioController {
     // Tela principal (index) -> evita o erro 404
     @GetMapping({"/", "/index"})
     public ModelAndView index() {
-        return new ModelAndView("home/index");
+		ModelAndView mv = new ModelAndView("/home/index");
+
+		List<Usuario> users = repU.findAll();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<Usuario> op = repU.findByNome(auth.getName());
+		
+		if(op.isPresent()) {
+			mv.addObject("usuario", op.get());
+		}
+
+		mv.addObject("usuarios", users);
+
+		return mv;
     }
 
     // Tela de cadastro de usuário

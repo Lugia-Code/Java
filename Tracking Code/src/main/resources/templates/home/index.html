@@ -26,7 +26,6 @@
                             <th scope="col">Nome</th>
                             <th scope="col">Senha</th>
                             <th scope="col">Funções</th>
-                            <th scope="col">Data de Nascimento</th>
                             <th scope="col">#</th>
                             <th scope="col">#</th>
                             <th scope="col">#</th>
@@ -36,12 +35,11 @@
                         <tr th:each="usuario : ${usuarios}">
                             <td th:text="${usuario.id}">1</td>
                             <td th:text="${usuario.nome}">Nome</td>
-                            <td th:text="${usuario.senha}">Senha</td>
                             <td>
                                 <span th:each="funcao : ${usuario.funcoes}"
                                       th:text="${funcao.nome}">Função</span>
                             </td>
-                            <td th:text="${usuario.pessoa != null ? #temporals.format(usuario.pessoa.dataNascimento, 'dd/MM/yyyy') : '-'}">-</td>
+               
                             <td><a th:href="@{'/usuario/editar/' + ${usuario.id}}">Editar</a></td>
                             <td><a th:href="@{'/usuario/remover/' + ${usuario.id}}">Remover</a></td>
                             <td><a th:href="@{'/usuario/' + ${usuario.id}}">Detalhes</a></td>
