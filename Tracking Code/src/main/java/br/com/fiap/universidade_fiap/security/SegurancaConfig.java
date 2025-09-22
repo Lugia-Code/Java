@@ -18,8 +18,8 @@ public class SegurancaConfig {
 				.requestMatchers(
 					"/usuario/novo",
 					"/pessoa/nova",
-					"/discente/editar/{id}",
-					"/discente/remover/{id}"
+					"/usuario/editar/{id}",
+					"/usuario/remover/{id}"
 				).hasAuthority("GERENTE")
 				.anyRequest().authenticated()
 			)
