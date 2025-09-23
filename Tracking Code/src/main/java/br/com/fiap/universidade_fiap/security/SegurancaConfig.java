@@ -12,38 +12,41 @@ public class SegurancaConfig {
 	
 	@Bean
 	public SecurityFilterChain filtrar(HttpSecurity http) throws Exception {
-		
-		http
-			.authorizeHttpRequests(request -> request
-				.requestMatchers(
-					"/usuario/novo",
-					"/pessoa/nova",
-					"/usuario/editar/{id}",
-					"/usuario/remover/{id}"
-				).hasAuthority("GERENTE")
-				.anyRequest().authenticated()
-			)
-			.formLogin(login -> login
-				.loginPage("/login")
-				.usernameParameter("nome")       
-				.passwordParameter("password")   
-				.defaultSuccessUrl("/index", true)
-				.failureUrl("/login?falha=true")
-				.permitAll()
-			)
-			.logout(logout -> logout
-				.logoutUrl("/logout")
-				.logoutSuccessUrl("/login?logout=true")
-				.permitAll()
-			)
-			.exceptionHandling(exception -> 
-				exception.accessDeniedHandler((request, response, ex) -> {
-					response.sendRedirect("/acesso_negado");
-				})
-			);
-		
-		return http.build();
+
+	    http
+	        .authorizeHttpRequests(request -> request
+	            .requestMatchers(
+	                "/usuario/novo",
+	                "/pessoa/nova",
+	                "/usuario/editar/{id}",
+	                "/usuario/remover/{id}"
+	            ).hasAuthority("GERENTE")
+	            .requestMatchers("/login", "/h2-console/**", "/css/**", "/js/**").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .formLogin(login -> login
+	            .loginPage("/login")
+	            .usernameParameter("nome")
+	            .passwordParameter("password")
+	            .defaultSuccessUrl("/index", true)
+	            .failureUrl("/login?falha=true")
+	            .permitAll()
+	        )
+	        .logout(logout -> logout
+	            .logoutUrl("/logout")
+	            .logoutSuccessUrl("/login?logout=true")
+	            .permitAll()
+	        )
+	        .exceptionHandling(exception ->
+	            exception.accessDeniedHandler((request, response, ex) -> {
+	                response.sendRedirect("/acesso_negado");
+	            })
+	        )
+	        .headers(headers -> headers.frameOptions().disable());
+
+	    return http.build();
 	}
+
 	
 	@Bean
 	public PasswordEncoder encoder() {

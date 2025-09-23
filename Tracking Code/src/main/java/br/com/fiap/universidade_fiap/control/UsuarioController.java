@@ -33,6 +33,16 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository repU;
 
+    
+    
+    @GetMapping("/login")
+    public ModelAndView login(@RequestParam(value="falha", required=false) String falha) {
+        ModelAndView mv = new ModelAndView("login"); 
+        if(falha != null) mv.addObject("erro", true);
+        return mv;
+    }
+    
+    
     @GetMapping("/index")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("/home/index");
@@ -93,7 +103,7 @@ public class UsuarioController {
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("usuario/edicao");
             mv.addObject("usuario", usuarioAtualizado);
-            mv.addObject("lista_funcoes", repF.findAll());
+            mv.addObject("listaFuncoes", repF.findAll());
             return mv;
         } else {
             Optional<Usuario> op = repU.findById(id);
