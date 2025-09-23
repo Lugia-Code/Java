@@ -98,32 +98,44 @@ public class UsuarioController {
         }
     }
 
+    
     @PostMapping("/usuario/atualizar/{id}")
-    public ModelAndView atualizarUsuario(@PathVariable Long id, @Valid Usuario usuarioAtualizado, BindingResult bd, @RequestParam(name = "id_funcao") Long id_funcao) {
+    public ModelAndView atualizarUsuario(
+            @PathVariable Long id,
+            @Valid Usuario usuarioAtualizado,
+            BindingResult bd) {
+
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("usuario/edicao");
             mv.addObject("usuario", usuarioAtualizado);
-            mv.addObject("listaFuncoes", repF.findAll());
+            mv.addObject("lista_funcoes", repF.findAll());
             return mv;
-        } else {
-            Optional<Usuario> op = repU.findById(id);
-            if (op.isPresent()) {
-                Usuario usuario = op.get();
-                usuario.setNome(usuarioAtualizado.getNome());
-                usuario.setSenha(encoder.encode(usuarioAtualizado.getSenha()));
-                
-                Set<Funcao> funcoes = new HashSet<>();
-                Optional<Funcao> funcao = repF.findById(id_funcao);
-                funcao.ifPresent(funcoes::add);
-                
-                usuario.setFuncoes(funcoes);
-                repU.save(usuario);
-                return new ModelAndView("redirect:/index");
-            } else {
-                return new ModelAndView("redirect:/index");
-            }
         }
+
+        Optional<Usuario> op = repU.findById(id);
+        if (op.isPresent()) {
+            Usuario usuario = op.get();
+            usuario.setNome(usuarioAtualizado.getNome());
+
+            // Atualiza a senha apenas se o usuário preencher o campo
+            if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
+                usuario.setSenha(encoder.encode(usuarioAtualizado.getSenha()));
+            }
+
+            // Atualiza funções (multi-seleção)
+            Set<Funcao> funcoes = new HashSet<>();
+            if (usuarioAtualizado.getFuncoes() != null) {
+                funcoes.addAll(usuarioAtualizado.getFuncoes());
+            }
+            usuario.setFuncoes(funcoes);
+
+            repU.save(usuario);
+        }
+
+        return new ModelAndView("redirect:/index");
     }
+    
+    
 
     @GetMapping("/usuario/remover/{id}")
     public ModelAndView removerUsuario(@PathVariable Long id) {

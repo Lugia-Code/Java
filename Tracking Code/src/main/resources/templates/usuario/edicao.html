@@ -2,36 +2,35 @@
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragmentos :: cabecalho('Editar Usuário')}"></head>
 <body>
-  
+
     <div th:replace="~{fragmentos :: form-logout}"></div>
-    
+
     <div class="container mt-4">
         <div class="row">
             <h1>Editar Usuário</h1>
         </div>
         <div class="row">
-            <form th:object="${usuario}" 
-                  th:action="@{/usuario/atualizar/{id}(id=${usuario.id})}" 
+            <form th:object="${usuario}"
+                  th:action="@{/usuario/atualizar/{id}(id=${usuario.id})}"
                   method="post">
-                
+
                 <!-- Campo Nome -->
                 <div class="mb-3">
                     <label for="nome" class="form-label">Nome:</label>
-                    <input id="nome" class="form-control" 
-                           type="text" th:field="*{nome}" 
-                           th:errorclass="is-invalid" />
+                    <input id="nome" class="form-control" type="text" th:field="*{nome}" th:errorclass="is-invalid"/>
                     <div class="invalid-feedback" th:errors="*{nome}"></div>
                 </div>
 
-                <!-- Campo Funções (multi-seleção) -->
+                <!-- Campo Função (seleção única) -->
                 <div class="mb-3">
-                    <label for="funcoes" class="form-label">Funções:</label>
-                 <select th:field="*{funcoes}" class="form-select" multiple>
-					    <option th:each="f : ${lista_funcoes}" 
-					            th:value="${f.id}" 
-					            th:text="${f.nome}">
-					    </option>
-				</select>
+                    <label for="funcoes" class="form-label">Função:</label>
+                    <select th:field="*{funcoes}" name="id_funcao" class="form-select">
+                        <option th:each="f : ${lista_funcoes}"
+                                th:value="${f.id}"
+                                th:text="${f.nome}"
+                                th:selected="${usuario.funcoes.contains(f)}">
+                        </option>
+                    </select>
                     <div class="invalid-feedback" th:errors="*{funcoes}"></div>
                 </div>
 
@@ -42,7 +41,7 @@
                 <button type="submit" class="btn btn-primary">Salvar Alterações</button>
             </form>
         </div>
-        
+
         <!-- Voltar -->
         <div class="row mt-3">
             <a href="/index" class="btn btn-secondary">Voltar para a lista de usuários</a>
