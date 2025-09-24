@@ -1,0 +1,5 @@
+package br.com.fiap.universidade_fiap.model;
+
+public enum EnumSetor {
+	MANUTENÇÃO, PENDENTES, SEM_PLACA, REPARO_SIMPLES, DANOS_GRAVES, PRONTAS_PARA_ALUGAR, MOTOR_DEFEITUOSO, AGENDADAS_PARA_MANUTENÇÃO
+}

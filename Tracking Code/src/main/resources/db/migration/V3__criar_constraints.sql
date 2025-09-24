@@ -9,3 +9,15 @@
        add constraint FK8fn746xwkm1mlneygai6lnbqk 
        foreign key (id_usuario) 
        references usuario;
+       
+       
+ alter table if exists usuario_setor_tab
+    add constraint fk_usuario_setor_usuario
+    foreign key (id_usuario)
+    references usuario;
+
+alter table if exists usuario_setor_tab
+    add constraint fk_usuario_setor_setor
+    foreign key (id_setor)
+    references setor;
+   

@@ -27,54 +27,57 @@ public class Usuario {
 	joinColumns = @JoinColumn(name = "id_usuario"), 
 	inverseJoinColumns = @JoinColumn(name = "id_funcao") )
 	private Set<Funcao> funcoes = new HashSet<Funcao>();
-
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_setor_tab", 
+	    joinColumns = @JoinColumn(name = "id_usuario"), 
+	    inverseJoinColumns = @JoinColumn(name = "id_setor"))
+	private Set<Setor> setores = new HashSet<Setor>();
+	
+	
+	
+	
 	public Usuario() {
-
+		super();
 	}
-
-	public Usuario(Long id , String senha, String nome,  Set<Funcao> funcoes) {
+	public Usuario(Long id, String senha, String nome, Set<Funcao> funcoes, Set<Setor> setores) {
 		super();
 		this.id = id;
 		this.senha = senha;
 		this.nome = nome;
-	
 		this.funcoes = funcoes;
+		this.setores = setores;
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
-
 	public String getSenha() {
 		return senha;
 	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
-
 	public Set<Funcao> getFuncoes() {
 		return funcoes;
 	}
-
 	public void setFuncoes(Set<Funcao> funcoes) {
 		this.funcoes = funcoes;
 	}
+	public Set<Setor> getSetores() {
+		return setores;
+	}
+	public void setSetores(Set<Setor> setores) {
+		this.setores = setores;
+	}
 
+	
 }

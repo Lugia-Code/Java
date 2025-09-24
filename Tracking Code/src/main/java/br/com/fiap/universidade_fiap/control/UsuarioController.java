@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.fiap.universidade_fiap.model.Funcao;
+import br.com.fiap.universidade_fiap.model.Setor;
 import br.com.fiap.universidade_fiap.model.Usuario;
 import br.com.fiap.universidade_fiap.repository.FuncaoRepository;
+import br.com.fiap.universidade_fiap.repository.SetorRepository;
 import br.com.fiap.universidade_fiap.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
@@ -32,6 +34,8 @@ public class UsuarioController {
     private PasswordEncoder encoder;
     @Autowired
     private UsuarioRepository repU;
+    @Autowired
+    private SetorRepository repS;
 
     
     
@@ -60,26 +64,44 @@ public class UsuarioController {
 
     @GetMapping("/usuario/novo")
     public ModelAndView retornarCadUsuario() {
-        ModelAndView mv = new ModelAndView("usuario/form_cad");
-        mv.addObject("usuario", new Usuario());
-        mv.addObject("lista_funcoes", repF.findAll());
-        return mv;
+    	   ModelAndView mv = new ModelAndView("usuario/form_cad");
+    	    mv.addObject("usuario", new Usuario());
+    	    mv.addObject("lista_funcoes", repF.findAll());
+    	    mv.addObject("lista_setores", repS.findAll()); // <- aqui é importante
+    	    return mv;
     }
-
+    
+    
     @PostMapping("/insere_usuario")
-    public ModelAndView inserirUsuario(@Valid Usuario usuario, BindingResult bd, @RequestParam(name = "id_funcao") Long id_funcao) {
+    public ModelAndView inserirUsuario(
+            @Valid Usuario usuario,
+            BindingResult bd,
+            @RequestParam(name = "id_funcao") Long id_funcao,
+            @RequestParam(name = "id_setor") Long id_setor) {
+
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("usuario/form_cad");
             mv.addObject("usuario", usuario);
             mv.addObject("lista_funcoes", repF.findAll());
+            mv.addObject("lista_setores", repS.findAll());
             return mv;
         } else {
             usuario.setSenha(encoder.encode(usuario.getSenha()));
+
+         // Setor
+            Set<Setor> setores = new HashSet<>();
+            Optional<Setor> setor = repS.findById(id_setor);
+            setor.ifPresent(setores::add);
+            usuario.setSetores(setores);
+
+            // Função
             Set<Funcao> funcoes = new HashSet<>();
             Optional<Funcao> funcao = repF.findById(id_funcao);
             funcao.ifPresent(funcoes::add);
-
             usuario.setFuncoes(funcoes);
+           
+     
+
             repU.save(usuario);
             return new ModelAndView("redirect:/index");
         }
@@ -117,12 +139,11 @@ public class UsuarioController {
             Usuario usuario = op.get();
             usuario.setNome(usuarioAtualizado.getNome());
 
-            // Atualiza a senha apenas se o usuário preencher o campo
             if (usuarioAtualizado.getSenha() != null && !usuarioAtualizado.getSenha().isEmpty()) {
                 usuario.setSenha(encoder.encode(usuarioAtualizado.getSenha()));
             }
 
-            // Atualiza funções (multi-seleção)
+        
             Set<Funcao> funcoes = new HashSet<>();
             if (usuarioAtualizado.getFuncoes() != null) {
                 funcoes.addAll(usuarioAtualizado.getFuncoes());

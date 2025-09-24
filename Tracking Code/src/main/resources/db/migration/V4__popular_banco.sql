@@ -15,6 +15,17 @@ insert into funcao (nome) values ('OPERADOR');
 insert into funcao (nome) values ('AUXILIAR');
 
 
+-- criar 
+INSERT INTO setor (nome) VALUES ('MANUTENÇÃO');
+INSERT INTO setor (nome) VALUES ('PENDENTES');
+INSERT INTO setor (nome) VALUES ('SEM_PLACA');
+INSERT INTO setor (nome) VALUES ('REPARO_SIMPLES');
+INSERT INTO setor (nome) VALUES ('DANOS_GRAVES');
+INSERT INTO setor (nome) VALUES ('PRONTAS_PARA_ALUGAR');
+INSERT INTO setor (nome) VALUES ('MOTOR_DEFEITUOSO');
+INSERT INTO setor (nome) VALUES ('AGENDADAS_PARA_MANUTENÇÃO');
+
+
 -- Vincular o usuário admin à role GERENTE
 insert into usuario_funcao_tab (id_usuario, id_funcao) 
 values (
