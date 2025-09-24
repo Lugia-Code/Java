@@ -1,62 +1,64 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="~{fragmentos :: cabecalho('Lista de Funcionários')}" />
 
 <body>
-    
-    <div th:replace="~{fragmentos :: form-logout}" />
-    
-    <div class="container">
 
-        <!-- Saudação -->
-      <div style="display: flex; align-items: center;">
-    	<h1>Olá</h1>
+	<div th:replace="~{fragmentos :: form-logout}" />
+
+	<div class="container">
+
+		<!-- Saudação -->
+		<div style="display: flex; align-items: center;">
+			<h1>Olá</h1>
+		</div>
+
+		<div class="row">
+			<h1>Lista de Funcionários</h1>
+		</div>
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Cargo</th>
+							<th scope="col">Patio de Trabalho</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario : ${usuarios}">
+							<td th:text="${usuario.id}">1</td>
+							<td th:text="${usuario.nome}">Nome</td>
+							<td><span th:each="funcao : ${usuario.funcoes}"
+								th:text="${funcao.nome}">Função</span></td>
+
+							<td><span th:each="setor : ${usuario.setores}"
+								th:text="${setor.nome}">Setor</span></td>
+
+							<td><a th:href="@{'/usuario/editar/' + ${usuario.id}}">Editar</a></td>
+							<td><a th:href="@{'/usuario/remover/' + ${usuario.id}}">Remover</a></td>
+							<td><a th:href="@{'/usuario/' + ${usuario.id}}">Detalhes</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Links de cadastro -->
+		<div class="row">
+			<a href="/pessoa/nova">Cadastrar Pessoa</a><br> <a
+				href="/usuario/novo">Cadastrar Funcionário</a>
+		</div>
 	</div>
-        
-        <div class="row">
-            <h1>Lista de Funcionários</h1>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Cargo</th>
-                            <th scope="col">Funções</th>
-                            <th scope="col">#</th>
-                            <th scope="col">#</th>
-                            <th scope="col">#</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="usuario : ${usuarios}">
-                            <td th:text="${usuario.id}">1</td>
-                            <td th:text="${usuario.nome}">Nome</td>
-                            <td>
-                                <span th:each="funcao : ${usuario.funcoes}"
-                                      th:text="${funcao.nome}">Função</span>
-                            </td>
-               
-                            <td><a th:href="@{'/usuario/editar/' + ${usuario.id}}">Editar</a></td>
-                            <td><a th:href="@{'/usuario/remover/' + ${usuario.id}}">Remover</a></td>
-                            <td><a th:href="@{'/usuario/' + ${usuario.id}}">Detalhes</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        <!-- Links de cadastro -->
-        <div class="row">
-            <a href="/pessoa/nova">Cadastrar Pessoa</a><br>
-            <a href="/usuario/novo">Cadastrar Funcionário</a>
-        </div>
-    </div>
-    
-    <script th:replace="~{fragmentos :: script-js}" />
+	<script th:replace="~{fragmentos :: script-js}" />
 
 </body>
 </html>

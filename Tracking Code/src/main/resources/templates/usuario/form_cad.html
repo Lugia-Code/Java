@@ -32,7 +32,20 @@
                 <option th:each="funcao : ${lista_funcoes}" 
                         th:value="${funcao.id}" 
                         th:text="${funcao.nome}"></option>
-            </select><br><br>
+            </select>
+            
+            
+              Setor:
+            <select class="form-select" th:field="*{id_setor}" id="setor">
+                <option th:each="setor : ${lista_setores}" 
+                        th:value="${setor.id}" 
+                        th:text="${setor.descricao}">
+                    Teste
+                </option>
+            </select>
+            
+            
+            <br><br>
 
             <!-- CSRF -->
             <input type="hidden" name="_csrf" th:value="${_csrf.token}">
