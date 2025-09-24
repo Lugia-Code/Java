@@ -1,23 +1,12 @@
+-- Adicionar constraints de FK
+ALTER TABLE usuario_funcao_tab
+ADD CONSTRAINT fk_usuario_funcao_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id);
 
-       
-    alter table if exists usuario_funcao_tab 
-       add constraint FKok5gp7l6j5dnmnkpwwdwxs374 
-       foreign key (id_funcao) 
-       references funcao;
-       
-    alter table if exists usuario_funcao_tab 
-       add constraint FK8fn746xwkm1mlneygai6lnbqk 
-       foreign key (id_usuario) 
-       references usuario;
-       
-       
- alter table if exists usuario_setor_tab
-    add constraint fk_usuario_setor_usuario
-    foreign key (id_usuario)
-    references usuario;
+ALTER TABLE usuario_funcao_tab
+ADD CONSTRAINT fk_usuario_funcao_funcao FOREIGN KEY (id_funcao) REFERENCES funcao(id);
 
-alter table if exists usuario_setor_tab
-    add constraint fk_usuario_setor_setor
-    foreign key (id_setor)
-    references setor;
-   
+ALTER TABLE usuario_setor_tab
+ADD CONSTRAINT fk_usuario_setor_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id);
+
+ALTER TABLE usuario_setor_tab
+ADD CONSTRAINT fk_usuario_setor_setor FOREIGN KEY (id_setor) REFERENCES setor(id);

@@ -1,10 +1,10 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragmentos :: cabecalho('Cadastrar Usuário')}" />
+
 <body>
 
-	<div th:replace="~{fragmentos :: form-logout}" />
+
 
 	<div class="container">
 		<div class="row">
@@ -16,21 +16,19 @@
 
 				Nome: <input class="form-control" type="text" th:field="*{nome}"><br>
 				Senha: <input class="form-control" type="password"
-					th:field="*{senha}"><br> Funcão: <select
-					class="form-select" th:name="'id_funcao'">
-					<option th:each="funcao : ${lista_funcoes}" th:value="${funcao.id}"
-						th:text="${funcao.nome}"></option>
-				</select> Patio: <select class="form-select" th:name="'id_setor'">
-					<option th:each="setor : ${lista_setores}" th:value="${setor.id}"
-						th:text="${setor.nome}"></option>
-				</select> <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+					th:field="*{senha}"><br> 
+			
+			<label for="setor">Setor:</label>
+				<select class="form-select" th:field="*{id_setor}" id="setor">
+				    <option th:each="setor : ${lista_setores}" th:value="${setor.id}" th:text="${setor.nome}"></option>
+				</select>
 
 				<button type="submit">Cadastrar Funcionario</button>
 			</form>
 
 		</div>
 		<div class="row">
-			<a href="/index">Listar discentes</a>
+			<a href="/index">Listar Funcionarios</a>
 		</div>
 	</div>
 

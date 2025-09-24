@@ -18,7 +18,9 @@ public class Setor {
 	@Enumerated(EnumType.STRING)
 	private EnumSetor nome;
 
-	
+
+
+
 	public Setor() {
 		super();
 	}

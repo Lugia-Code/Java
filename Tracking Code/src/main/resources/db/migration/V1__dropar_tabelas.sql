@@ -1,5 +1,7 @@
-  
-    drop table if exists funcao cascade;
-    drop table if exists pessoa cascade; 
-    drop table if exists usuario cascade; 
-    drop table if exists usuario_funcao_tab cascade; 
+-- DROP TABELAS
+DROP TABLE IF EXISTS usuario_setor_tab CASCADE;
+DROP TABLE IF EXISTS usuario_funcao_tab CASCADE;
+DROP TABLE IF EXISTS usuario CASCADE;
+DROP TABLE IF EXISTS pessoa CASCADE;
+DROP TABLE IF EXISTS setor CASCADE;
+DROP TABLE IF EXISTS funcao CASCADE;

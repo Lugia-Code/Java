@@ -64,14 +64,18 @@ public class UsuarioController {
 
     @GetMapping("/usuario/novo")
     public ModelAndView retornarCadUsuario() {
-    	   ModelAndView mv = new ModelAndView("usuario/form_cad");
-    	    mv.addObject("usuario", new Usuario());
-    	    mv.addObject("lista_funcoes", repF.findAll());
-    	    mv.addObject("lista_setores", repS.findAll()); // <- aqui é importante
-    	    return mv;
+        ModelAndView mv = new ModelAndView("usuario/form_cad");
+        mv.addObject("usuario", new Usuario());
+        mv.addObject("lista_funcoes", repF.findAll());
+
+        var listaSetores = repS.findAll();
+        System.out.println("DEBUG - Número de setores carregados: " + listaSetores.size());
+        listaSetores.forEach(setor -> System.out.println("DEBUG - Setor: " + setor.getNome() + " - ID: " + setor.getId()));
+
+        mv.addObject("lista_setores", listaSetores);
+        return mv;
     }
-    
-    
+
     @PostMapping("/insere_usuario")
     public ModelAndView inserirUsuario(
             @Valid Usuario usuario,
@@ -83,12 +87,20 @@ public class UsuarioController {
             ModelAndView mv = new ModelAndView("usuario/form_cad");
             mv.addObject("usuario", usuario);
             mv.addObject("lista_funcoes", repF.findAll());
-            mv.addObject("lista_setores", repS.findAll());
+
+            var listaSetores = repS.findAll();
+            System.out.println("DEBUG - Número de setores carregados no POST (erro de validação): " + listaSetores.size());
+            listaSetores.forEach(setor -> System.out.println("DEBUG - Setor: " + setor.getNome() + " - ID: " + setor.getId()));
+
+            mv.addObject("lista_setores", listaSetores);
             return mv;
         } else {
             usuario.setSenha(encoder.encode(usuario.getSenha()));
 
-         // Setor
+            // Atualiza o campo auxiliar do setor selecionado para permitir bind no form
+            usuario.setId_setor(id_setor);
+
+            // Popula o Set<Setor> com o setor selecionado para persistência
             Set<Setor> setores = new HashSet<>();
             Optional<Setor> setor = repS.findById(id_setor);
             setor.ifPresent(setores::add);
@@ -99,13 +111,15 @@ public class UsuarioController {
             Optional<Funcao> funcao = repF.findById(id_funcao);
             funcao.ifPresent(funcoes::add);
             usuario.setFuncoes(funcoes);
-           
-     
+
+            System.out.println("DEBUG - Salvando usuário com setores:");
+            setores.forEach(s -> System.out.println("DEBUG - Setor salvo: " + s.getNome() + " - ID: " + s.getId()));
 
             repU.save(usuario);
             return new ModelAndView("redirect:/index");
         }
     }
+
 
     @GetMapping("/usuario/editar/{id}")
     public ModelAndView exibirPaginaEdicao(@PathVariable Long id) {
