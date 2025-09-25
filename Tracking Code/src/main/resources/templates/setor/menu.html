@@ -30,16 +30,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="setor : ${setores}">
-							<td th:text="${setor.id}">1</td>
-							<td th:text="${setor.nome}">Nome Setor</td>
-							<td th:text="${setor.descricao}">Descrição Setor</td>
-							
-							<!-- Opções de interação -->
-							<td><a th:href="@{'/setor/editar/' + ${setor.id}}">Editar</a></td>
-							<td><a th:href="@{'/setor/remover/' + ${setor.id}}">Remover</a></td>
-							<td><a th:href="@{'/setor/' + ${setor.id}}">Detalhes</a></td>
-						</tr>
+					<tr th:each="setor : ${setores}">
+					    <td th:text="${setor.id}">1</td>
+					    <td th:text="${setor.nome}">Nome Setor</td>
+					    <td th:text="${setor.descricao}">Descrição Setor</td>
+					
+					    <td><a th:href="@{'/setor/editar/' + ${setor.id}}">Editar</a></td>
+					    <td><a th:href="@{'/setor/remover/' + ${setor.id}}">Remover</a></td>
+					    <td><a th:href="@{'/setor/' + ${setor.id}}">Detalhes</a></td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
@@ -48,6 +47,9 @@
 		<!-- Links de ações -->
 		<div class="row mt-3">
 			<a href="/setor/novo" class="btn btn-primary">Cadastrar Novo Setor</a>
+		</div>
+		<div class="row mt-3">
+			<a href="/index" class="btn btn-primary">voltar ao menu principal</a>
 		</div>
 	</div>
 

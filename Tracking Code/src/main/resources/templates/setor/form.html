@@ -11,19 +11,20 @@
     <h1 th:text="${setor.id} != null ? 'Editar Setor' : 'Cadastrar Setor'"></h1>
 
     <form th:action="@{/setor/salvar}" th:object="${setor}" method="post">
-    <div class="mb-3">
-        <label for="nome" class="form-label">Nome:</label>
-        <input type="text" th:field="*{nome}" id="nome" class="form-control" />
-    </div>
 
-    <div class="mb-3">
-        <label for="descricao" class="form-label">Descrição:</label>
-        <textarea th:field="*{descricao}" id="descricao" class="form-control"></textarea>
-    </div>
+        <div class="form-group">
+            <label for="nome">Nome do Setor</label>
+    
+            	<input list="listaSetores" id="nome" class="form-control" th:field="*{nome}" placeholder="Digite o nome do setor"/>
+              
+            <label for="nome">Descrição do Setor</label>
+             
+             	<input list="listaSetores" id="descricao" class="form-control" th:field="*{descricao}" placeholder="Digite a descrição do setor"/>
+        
+        </div>
 
-    <button type="submit" class="btn btn-success">Salvar</button>
-</form>
-
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
 </div>
 
 <script th:replace="~{fragmentos :: script-js}" />

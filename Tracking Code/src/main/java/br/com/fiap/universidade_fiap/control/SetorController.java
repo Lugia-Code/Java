@@ -20,17 +20,19 @@ public class SetorController {
     @Autowired
     private SetorRepository repS;
 
-    // Tela de menu de setores
+    // Tela de menu de setores (com lista de setores)
     @GetMapping("/setor/menu")
     public ModelAndView menuSetor() {
-        return new ModelAndView("/setor/menu");
+        ModelAndView mv = new ModelAndView("/setor/menu");
+        mv.addObject("setores", repS.findAll()); // adiciona a lista de setores
+        return mv;
     }
 
-    // Listar setores
+    // Listar setores (outra tela de listagem, se ainda usar)
     @GetMapping("/setor")
     public ModelAndView listarSetores() {
         ModelAndView mv = new ModelAndView("/setor/setorIndex");
-        mv.addObject("lista_setores", repS.findAll());
+        mv.addObject("setores", repS.findAll()); // usar o mesmo nome para consistência
         return mv;
     }
 
@@ -51,7 +53,7 @@ public class SetorController {
             return mv;
         }
         repS.save(setor);
-        return new ModelAndView("redirect:/setor");
+        return new ModelAndView("redirect:/setor/menu"); // redireciona para o menu atualizado
     }
 
     // Editar setor
@@ -63,7 +65,7 @@ public class SetorController {
             mv.addObject("setor", op.get());
             return mv;
         } else {
-            return new ModelAndView("redirect:/setor");
+            return new ModelAndView("redirect:/setor/menu");
         }
     }
 
@@ -74,7 +76,7 @@ public class SetorController {
         if (op.isPresent()) {
             repS.deleteById(id);
         }
-        return new ModelAndView("redirect:/setor");
+        return new ModelAndView("redirect:/setor/menu");
     }
 
 }

@@ -45,8 +45,10 @@ public class Setor {
         this.nome = nome;
     }
 
-    // Novo getter para expor a descrição do enum
     public String getDescricao() {
-        return nome.getDescricao();
+        if (this.nome != null) {
+            return this.nome.getDescricao();
+        }
+        return null; 
     }
 }
