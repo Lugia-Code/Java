@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Formulário de Setor')}" />
+<body>
+
+<div th:replace="~{fragmentos :: form-logout}" />
+
+<div class="container">
+    <h1 th:text="${setor.id} != null ? 'Editar Setor' : 'Cadastrar Setor'"></h1>
+
+    <form th:action="@{/setor/salvar}" th:object="${setor}" method="post">
+    <div class="mb-3">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" th:field="*{nome}" id="nome" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="descricao" class="form-label">Descrição:</label>
+        <textarea th:field="*{descricao}" id="descricao" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar</button>
+</form>
+
+</div>
+
+<script th:replace="~{fragmentos :: script-js}" />
+</body>
+</html>

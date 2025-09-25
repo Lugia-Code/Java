@@ -1,0 +1,39 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Lista de Setores')}" />
+<body>
+
+<div th:replace="~{fragmentos :: form-logout}" />
+
+<div class="container">
+    <h1>Lista de Setores</h1>
+
+    <table class="table table-hover mt-3">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th colspan="2">Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="setor : ${lista_setores}">
+            <td th:text="${setor.id}"></td>
+            <td th:text="${setor.nome}"></td>
+            <td th:text="${setor.descricao}"></td>
+            <td><a th:href="@{'/setor/editar/' + ${setor.id}}" class="btn btn-warning btn-sm">Editar</a></td>
+            <td><a th:href="@{'/setor/remover/' + ${setor.id}}" class="btn btn-danger btn-sm">Remover</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="/setor/novo" class="btn btn-primary">Cadastrar Novo Setor</a>
+    <a href="/setor/menu" class="btn btn-secondary">Voltar ao Menu</a>
+</div>
+
+<script th:replace="~{fragmentos :: script-js}" />
+</body>
+</html>

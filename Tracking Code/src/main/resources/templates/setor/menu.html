@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Menu de Setores')}" />
+
+<body>
+
+	<div th:replace="~{fragmentos :: form-logout}" />
+
+	<div class="container">
+
+		<!-- Saudação -->
+		<div style="display: flex; align-items: center;">
+			<h1>Menu de Setores</h1>
+		</div>
+
+		<!-- Tabela com os setores -->
+		<div class="row">
+			<div class="col-12">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Descrição</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+							<th scope="col">#</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="setor : ${setores}">
+							<td th:text="${setor.id}">1</td>
+							<td th:text="${setor.nome}">Nome Setor</td>
+							<td th:text="${setor.descricao}">Descrição Setor</td>
+							
+							<!-- Opções de interação -->
+							<td><a th:href="@{'/setor/editar/' + ${setor.id}}">Editar</a></td>
+							<td><a th:href="@{'/setor/remover/' + ${setor.id}}">Remover</a></td>
+							<td><a th:href="@{'/setor/' + ${setor.id}}">Detalhes</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Links de ações -->
+		<div class="row mt-3">
+			<a href="/setor/novo" class="btn btn-primary">Cadastrar Novo Setor</a>
+		</div>
+	</div>
+
+	<script th:replace="~{fragmentos :: script-js}" />
+
+</body>
+</html>
