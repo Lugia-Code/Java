@@ -89,7 +89,7 @@ public class UsuarioController {
             mv.addObject("lista_funcoes", repF.findAll());
 
             var listaSetores = repS.findAll();
-            System.out.println("DEBUG - Número de setores carregados no POST (erro de validação): " + listaSetores.size());
+            
             listaSetores.forEach(setor -> System.out.println("DEBUG - Setor: " + setor.getNome() + " - ID: " + setor.getId()));
 
             mv.addObject("lista_setores", listaSetores);
@@ -128,6 +128,7 @@ public class UsuarioController {
             ModelAndView mv = new ModelAndView("usuario/edicao");
             mv.addObject("usuario", op.get());
             mv.addObject("lista_funcoes", repF.findAll());
+            mv.addObject("lista_setores", repS.findAll());
             return mv;
         } else {
             return new ModelAndView("redirect:/index");
@@ -139,12 +140,14 @@ public class UsuarioController {
     public ModelAndView atualizarUsuario(
             @PathVariable Long id,
             @Valid Usuario usuarioAtualizado,
-            BindingResult bd) {
+            BindingResult bd,
+            @RequestParam(name = "id_setor", required = false) Long id_setor) {
 
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("usuario/edicao");
             mv.addObject("usuario", usuarioAtualizado);
             mv.addObject("lista_funcoes", repF.findAll());
+            mv.addObject("lista_setores", repS.findAll());
             return mv;
         }
 
@@ -157,18 +160,25 @@ public class UsuarioController {
                 usuario.setSenha(encoder.encode(usuarioAtualizado.getSenha()));
             }
 
-        
+    
             Set<Funcao> funcoes = new HashSet<>();
             if (usuarioAtualizado.getFuncoes() != null) {
                 funcoes.addAll(usuarioAtualizado.getFuncoes());
             }
             usuario.setFuncoes(funcoes);
 
+            if (id_setor != null) {
+                Set<Setor> setores = new HashSet<>();
+                repS.findById(id_setor).ifPresent(setores::add);
+                usuario.setSetores(setores);
+            }
+
             repU.save(usuario);
         }
 
         return new ModelAndView("redirect:/index");
     }
+
     
     
 

@@ -21,7 +21,7 @@
                     <div class="invalid-feedback" th:errors="*{nome}"></div>
                 </div>
 
-                <!-- Campo Função (seleção única) -->
+               
                 <div class="mb-3">
                     <label for="funcoes" class="form-label">Função:</label>
                     <select th:field="*{funcoes}" name="id_funcao" class="form-select">
@@ -33,6 +33,22 @@
                     </select>
                     <div class="invalid-feedback" th:errors="*{funcoes}"></div>
                 </div>
+
+				<div class="mb-3">
+				   <label for="setor">Setor:</label>
+				<select class="form-select" name="id_setor" id="setor">
+					    <option th:each="setor : ${lista_setores}"
+					            th:value="${setor.id}"
+					            th:text="${setor.descricao}"
+					            th:selected="${usuario.setores.contains(setor)}">
+					    </option>
+				</select>
+				 <div class="invalid-feedback" th:errors="*{setores}"></div>
+</div>
+
+
+
+
 
                 <!-- Token CSRF -->
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
