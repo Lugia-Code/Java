@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.com.fiap.universidade_fiap.model.EnumSetor;
 import br.com.fiap.universidade_fiap.model.Setor;
 import br.com.fiap.universidade_fiap.repository.SetorRepository;
 import jakarta.validation.Valid;
@@ -41,6 +42,7 @@ public class SetorController {
     public ModelAndView novoSetor() {
         ModelAndView mv = new ModelAndView("/setor/form");
         mv.addObject("setor", new Setor());
+        mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select
         return mv;
     }
 
@@ -50,10 +52,11 @@ public class SetorController {
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("/setor/form");
             mv.addObject("setor", setor);
+            mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select em caso de erro
             return mv;
         }
         repS.save(setor);
-        return new ModelAndView("redirect:/setor/menu"); // redireciona para o menu atualizado
+        return new ModelAndView("redirect:/setor/menu"); 
     }
 
     // Editar setor
@@ -63,6 +66,7 @@ public class SetorController {
         if (op.isPresent()) {
             ModelAndView mv = new ModelAndView("/setor/form");
             mv.addObject("setor", op.get());
+            mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select
             return mv;
         } else {
             return new ModelAndView("redirect:/setor/menu");

@@ -16,15 +16,11 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private EnumSetor nome;
+    private String nome; 
 
-    public Setor() {
-        super();
-    }
+    public Setor() { }
 
-    public Setor(Long id, EnumSetor nome) {
-        super();
+    public Setor(Long id, String nome) {
         this.id = id;
         this.nome = nome;
     }
@@ -37,18 +33,16 @@ public class Setor {
         this.id = id;
     }
 
-    public EnumSetor getNome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(EnumSetor nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
     public String getDescricao() {
-        if (this.nome != null) {
-            return this.nome.getDescricao();
-        }
-        return null; 
+        return nome != null ? nome.toUpperCase() : "";
     }
 }
+
