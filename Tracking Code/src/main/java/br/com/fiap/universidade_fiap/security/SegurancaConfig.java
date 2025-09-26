@@ -17,9 +17,14 @@ public class SegurancaConfig {
 	        .authorizeHttpRequests(request -> request
 	            .requestMatchers(
 	                "/usuario/novo",
-	                "/pessoa/nova",
 	                "/usuario/editar/{id}",
-	                "/usuario/remover/{id}"
+	                "/usuario/remover/{id}",
+	                "/setor/menu",
+	                "/setor",
+	                "/setor/novo",
+	                "/setor/salvar",
+	                "/setor/editar/{id}",
+	                "/setor/remover/{id}"
 	            ).hasAuthority("GERENTE")
 	            .requestMatchers("/login", "/h2-console/**", "/css/**", "/js/**").permitAll()
 	            .anyRequest().authenticated()

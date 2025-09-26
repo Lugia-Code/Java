@@ -8,23 +8,23 @@
 <div th:replace="~{fragmentos :: form-logout}" />
 
 <div class="container">
-    <h1 th:text="${setor.id} != null ? 'Editar Setor' : 'Cadastrar Setor'"></h1>
+    <h1 th:text="${setor.id} != null ? 'Cadastrar Setor'"></h1>
 
-    <form th:action="@{/setor/salvar}" th:object="${setor}" method="post">
+ <form th:action="@{/setor/salvar}" th:object="${setor}" method="post">
 
-        <div class="form-group">
-            <label for="nome">Nome do Setor</label>
-    
-            	<input list="listaSetores" id="nome" class="form-control" th:field="*{nome}" placeholder="Digite o nome do setor"/>
-              
-            <label for="nome">Descrição do Setor</label>
-             
-             	<input list="listaSetores" id="descricao" class="form-control" th:field="*{descricao}" placeholder="Digite a descrição do setor"/>
-        
-        </div>
+    <input type="hidden" th:field="*{id}" />
 
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </form>
+    <div class="form-group">
+        <label for="nome">Nome do Setor</label>
+        <input id="nome" class="form-control" th:field="*{nome}" placeholder="Digite o nome do setor"/>
+
+        <label for="descricao">Descrição do Setor</label>
+        <input id="descricao" class="form-control" th:field="*{descricao}" placeholder="Digite a descrição do setor"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a href="/setor/menu" class="btn btn-secondary">Menu de Setores</a>
+</form>
 </div>
 
 <script th:replace="~{fragmentos :: script-js}" />

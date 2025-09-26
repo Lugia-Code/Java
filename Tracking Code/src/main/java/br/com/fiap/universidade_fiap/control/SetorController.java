@@ -21,28 +21,28 @@ public class SetorController {
     @Autowired
     private SetorRepository repS;
 
-    // Tela de menu de setores (com lista de setores)
+
     @GetMapping("/setor/menu")
     public ModelAndView menuSetor() {
         ModelAndView mv = new ModelAndView("/setor/menu");
-        mv.addObject("setores", repS.findAll()); // adiciona a lista de setores
+        mv.addObject("setores", repS.findAll()); 
         return mv;
     }
 
-    // Listar setores (outra tela de listagem, se ainda usar)
+  
     @GetMapping("/setor")
     public ModelAndView listarSetores() {
         ModelAndView mv = new ModelAndView("/setor/setorIndex");
-        mv.addObject("setores", repS.findAll()); // usar o mesmo nome para consistência
+        mv.addObject("setores", repS.findAll()); 
         return mv;
     }
 
-    // Exibir formulário para novo setor
+
     @GetMapping("/setor/novo")
     public ModelAndView novoSetor() {
         ModelAndView mv = new ModelAndView("/setor/form");
         mv.addObject("setor", new Setor());
-        mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select
+        mv.addObject("enumSetores", EnumSetor.values()); 
         return mv;
     }
 
@@ -52,7 +52,7 @@ public class SetorController {
         if (bd.hasErrors()) {
             ModelAndView mv = new ModelAndView("/setor/form");
             mv.addObject("setor", setor);
-            mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select em caso de erro
+            mv.addObject("enumSetores", EnumSetor.values()); 
             return mv;
         }
         repS.save(setor);
@@ -66,7 +66,7 @@ public class SetorController {
         if (op.isPresent()) {
             ModelAndView mv = new ModelAndView("/setor/form");
             mv.addObject("setor", op.get());
-            mv.addObject("enumSetores", EnumSetor.values()); // necessário para popular o select
+            mv.addObject("enumSetores", EnumSetor.values()); 
             return mv;
         } else {
             return new ModelAndView("redirect:/setor/menu");
