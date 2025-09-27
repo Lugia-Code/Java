@@ -97,10 +97,10 @@ public class UsuarioController {
         } else {
             usuario.setSenha(encoder.encode(usuario.getSenha()));
 
-            // Atualiza o campo auxiliar do setor selecionado para permitir bind no form
+            
             usuario.setId_setor(id_setor);
 
-            // Popula o Set<Setor> com o setor selecionado para persistência
+       
             Set<Setor> setores = new HashSet<>();
             Optional<Setor> setor = repS.findById(id_setor);
             setor.ifPresent(setores::add);
@@ -188,6 +188,20 @@ public class UsuarioController {
         if (op.isPresent()) {
             repU.deleteById(id);
             return new ModelAndView("redirect:/index");
+        } else {
+            return new ModelAndView("redirect:/index");
+        }
+    }
+    
+    @GetMapping("/usuario/{id}")
+    public ModelAndView detalhesUsuario(@PathVariable Long id) {
+        Optional<Usuario> op = repU.buscarUsuarioComSetoresEFuncoes(id);
+        if (op.isPresent()) {
+            Usuario usuario = op.get();
+            System.out.println("DEBUG - Setores do usuário: " + usuario.getSetores());
+            ModelAndView mv = new ModelAndView("usuario/detalhes");
+            mv.addObject("usuario", usuario);
+            return mv;
         } else {
             return new ModelAndView("redirect:/index");
         }

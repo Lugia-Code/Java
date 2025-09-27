@@ -1,0 +1,38 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Detalhes do Setor')}" />
+
+<body>
+
+    <div th:replace="~{fragmentos :: form-logout}" />
+
+    <div class="container">
+        <h1 th:text="'Detalhes do Setor: ' + ${setor.nome}">Detalhes</h1>
+
+        <table class="table table-bordered">
+            <tr>
+                <th>ID</th>
+                <td th:text="${setor.id}">1</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td th:text="${setor.nome}">Nome Setor</td>
+            </tr>
+            <tr>
+                <th>Descrição</th>
+                <td th:text="${setor.descricao}">Descrição do setor</td>
+            </tr>
+        </table>
+
+        <div class="mt-3">
+            <a th:href="@{/setor/menu}" class="btn btn-secondary">Voltar</a>
+            <a th:href="@{'/setor/editar/' + ${setor.id}}" class="btn btn-primary">Editar</a>
+        </div>
+    </div>
+
+    <script th:replace="~{fragmentos :: script-js}" />
+
+</body>
+</html>

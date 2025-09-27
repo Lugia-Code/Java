@@ -42,7 +42,7 @@ public class SetorController {
     public ModelAndView novoSetor() {
         ModelAndView mv = new ModelAndView("/setor/form");
         mv.addObject("setor", new Setor());
-        mv.addObject("enumSetores", EnumSetor.values()); 
+        mv.addObject("enumSetores", EnumSetor.values());
         return mv;
     }
 
@@ -59,14 +59,14 @@ public class SetorController {
         return new ModelAndView("redirect:/setor/menu"); 
     }
 
-    // Editar setor
+
     @GetMapping("/setor/editar/{id}")
     public ModelAndView editarSetor(@PathVariable Long id) {
         Optional<Setor> op = repS.findById(id);
         if (op.isPresent()) {
             ModelAndView mv = new ModelAndView("/setor/form");
             mv.addObject("setor", op.get());
-            mv.addObject("enumSetores", EnumSetor.values()); 
+            mv.addObject("enumSetores", EnumSetor.values());
             return mv;
         } else {
             return new ModelAndView("redirect:/setor/menu");
@@ -83,4 +83,20 @@ public class SetorController {
         return new ModelAndView("redirect:/setor/menu");
     }
 
+    
+    
+ // Detalhar setor
+    @GetMapping("/setor/{id}")
+    public ModelAndView detalharSetor(@PathVariable Long id) {
+        Optional<Setor> op = repS.findById(id);
+        if (op.isPresent()) {
+            ModelAndView mv = new ModelAndView("/setor/detalhes");
+            mv.addObject("setor", op.get());
+            return mv;
+        } else {
+            return new ModelAndView("redirect:/setor/menu");
+        }
+    }
+
+    
 }

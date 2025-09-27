@@ -36,12 +36,12 @@
             
             
               Setor:
-            <select class="form-select" th:field="*{id_setor}" id="setor">
-                <option th:each="setor : ${lista_setores}" 
-                        th:value="${setor.id}" 
-                        th:text="${setor.descricao}">
-                </option>
-            </select>
+          <select class="form-select" name="id_setor" id="setor">
+    <option th:each="setor : ${lista_setores}" 
+            th:value="${setor.id}" 
+            th:text="${setor.nome}">
+    </option>
+</select>
             
             
             <br><br>

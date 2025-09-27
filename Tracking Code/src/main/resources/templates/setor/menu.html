@@ -23,7 +23,6 @@
 						<tr>
 							<th scope="col">ID</th>
 							<th scope="col">Nome</th>
-							<th scope="col">Descrição</th>
 							<th scope="col">#</th>
 							<th scope="col">#</th>
 							<th scope="col">#</th>
@@ -33,7 +32,6 @@
 					<tr th:each="setor : ${setores}">
 					    <td th:text="${setor.id}">1</td>
 					    <td th:text="${setor.nome}">Nome Setor</td>
-					    <td th:text="${setor.descricao}">Descrição Setor</td>
 					
 					    <td><a th:href="@{'/setor/editar/' + ${setor.id}}">Editar</a></td>
 					    <td><a th:href="@{'/setor/remover/' + ${setor.id}}">Remover</a></td>

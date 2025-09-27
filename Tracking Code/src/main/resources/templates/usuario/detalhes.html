@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragmentos :: cabecalho('Detalhes do Funcionário')}" />
+<body>
+
+<div th:replace="~{fragmentos :: form-logout}" />
+
+<div class="container">
+
+    <h1 th:text="'Detalhes do Funcionário: ' + ${usuario.nome}">Detalhes do Funcionário</h1>
+
+    <table class="table table-bordered mt-3">
+        <tr>
+            <th>ID</th>
+            <td th:text="${usuario.id}">1</td>
+        </tr>
+        <tr>
+            <th>Nome</th>
+            <td th:text="${usuario.nome}">Nome do Funcionário</td>
+        </tr>
+        <tr>
+            <th>Cargos</th>
+            <td>
+                <span th:each="funcao : ${usuario.funcoes}" th:text="${funcao.nome} + ' '" />
+            </td>
+        </tr>
+        <tr>
+            <th>Setores</th>
+            <td>
+                <span th:each="setor : ${usuario.setores}" th:text="${setor.nome} + ' '" />
+            </td>
+        </tr>
+    </table>
+
+    <div class="mt-3">
+        <a th:href="@{'/usuario/editar/' + ${usuario.id}}" class="btn btn-warning">Editar</a>
+        <a href="/index" class="btn btn-secondary">Voltar</a>
+    </div>
+
+</div>
+
+<script th:replace="~{fragmentos :: script-js}" />
+</body>
+</html>
