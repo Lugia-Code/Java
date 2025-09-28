@@ -1,77 +1,85 @@
-# LugiaTracker
+# Universidade FIAP - Projeto Tracking Code
 
-Sistema de gerenciamento de pátios, motos, gerentes, mecânicos e setores — desenvolvido como parte do desafio Java Advanced.
+## Descrição
 
----
+Aplicação Spring Boot para gerenciamento de usuários, funções, setores e endereços.
+Banco de dados: **PostgreSQL**
+Migrations: **Flyway**
 
-## 📌 Descrição
+## Pré-requisitos
 
-**LugiaTracker** é uma API RESTful construída com **Spring Boot** que permite o gerenciamento completo das operações em pátios veiculares. O sistema inclui o controle de motos, gerentes, setores e suas relações, utilizando boas práticas de desenvolvimento, cache, paginação, validação, documentação via Swagger e banco em memória (H2).
+* Java 17+
+* Maven 3.8+
+* PostgreSQL 12+ (ou superior)
 
----
+## Configuração do Banco de Dados
 
-## ✅ Funcionalidades
+1. Crie o banco `trackingdb`:
 
-- CRUD completo para as entidades:
-  - `Gerente`
-  - `Moto`
-- Relacionamentos entre entidades (ex: Moto → Setor, Gerente → Pátio)
-- Paginação e ordenação de resultados
-- Busca por parâmetros
-- DTOs para transferência segura de dados
-- Validações com Bean Validation
-- Cache de respostas com Spring Cache (`@Cacheable`)
-- Tratamento global de exceções
-- API documentada com Swagger/OpenAPI
-- Banco H2 em memória com dados pré-carregados via SQL
-- Uso de **Lombok** para reduzir a verbosidade do código
+```sql
+CREATE DATABASE trackingdb;
+```
 
----
+2. Configure usuário e senha em `application.properties`:
 
-## 🧱 Tecnologias Utilizadas
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/trackingdb
+spring.datasource.username=postgres
+spring.datasource.password=123456
+spring.datasource.driver-class-name=org.postgresql.Driver
+```
 
-- Java 17
-- Spring Boot
-- Spring Web
-- Spring Data JPA
-- Spring Validation
-- Spring Cache
-- H2 Database
-- Swagger (OpenAPI 3)
-- **Lombok**
-- Maven
+3. Flyway configurado para aplicar migrations automaticamente:
 
----
+```properties
+spring.flyway.enabled=true
+spring.flyway.baseline-on-migrate=true
+spring.flyway.locations=classpath:db/migration
+```
 
-## 🧰 Sobre o uso do Lombok
+## Rodando o Projeto
 
-Este projeto utiliza a biblioteca [**Lombok**](https://projectlombok.org/) para reduzir a quantidade de código boilerplate nas classes, como:
-
-- Getters e Setters automáticos (`@Getter`, `@Setter`)
-- Construtores (`@NoArgsConstructor`, `@AllArgsConstructor`)
-- Builder pattern (`@Builder`)
-- `toString()`, `equals()` e `hashCode()` automáticos (`@ToString`, `@EqualsAndHashCode`)
-
-> ⚠️ **Importante:** para que o Lombok funcione corretamente, é necessário instalar o plugin no seu IDE (ex: IntelliJ ou Eclipse) e habilitar o suporte a anotação.
-
----
-
-## 🛠️ Como executar o projeto
-
-### Pré-requisitos
-
-- Java 17+
-- Maven 3+
-- IDE com suporte ao Lombok (IntelliJ, Eclipse etc.)
-
-### Passos
+1. Compile e instale o projeto:
 
 ```bash
-# Clone o repositório
-git clone https://github.com/seu-usuario/lugiatracker.git
+mvn clean install -DskipTests
+```
 
-# Acesse o diretório do projeto
-cd lugiatracker
+2. Execute a aplicação:
 
-# Compile e execute o projeto
-./mvnw spring-boot:run
+```bash
+mvn spring-boot:run
+```
+
+3. Acesse:
+
+```
+http://localhost:8080
+```
+
+## Migrations Aplicadas
+
+* `v1__drop.sql` → Remove tabelas antigas
+* `v2__create.sql` → Cria tabelas e tipos ENUM
+* `v3__constraints.sql` → Adiciona foreign keys
+* `v4__inserts.sql` → Popula banco com dados iniciais (usuário admin, funções, setores, endereço)
+
+## Usuário Admin
+
+* **Login:** `admin`
+* **Senha:** `admin` (hash BCrypt já inserido via migration)
+
+## Testando o Banco
+
+```sql
+SELECT * FROM usuario;
+SELECT * FROM funcao;
+SELECT * FROM setor;
+SELECT * FROM endereco;
+```
+
+## Observações
+
+* Spring Security, JPA/Hibernate e Thymeleaf estão configurados.
+* Avisos sobre `frameOptions()` deprecated e `spring.jpa.open-in-view` podem ser ignorados.
+* Flyway alerta que PostgreSQL 18 não é oficialmente suportado, mas funciona em ambiente local.
