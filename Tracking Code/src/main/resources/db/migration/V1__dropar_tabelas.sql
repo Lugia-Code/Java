@@ -1,4 +1,3 @@
--- DROP TABELAS
 DROP TABLE IF EXISTS usuario_setor_tab CASCADE;
 DROP TABLE IF EXISTS usuario_funcao_tab CASCADE;
 DROP TABLE IF EXISTS usuario_endereco_tab CASCADE;

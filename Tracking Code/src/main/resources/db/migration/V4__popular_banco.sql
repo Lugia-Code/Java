@@ -1,36 +1,38 @@
--- Criar pessoa admin
-INSERT INTO pessoa (nome, cpf, data_nascimento, email) 
+-- Endereço
+INSERT INTO endereco (cep, logradouro, complemento, unidade, bairro, localidade, uf, estado, regiao)
+VALUES ('01001-000', 'Praça da Sé', 'lado ímpar', '', 'Sé', 'São Paulo', 'SP', 'São Paulo', 'Sudeste');
+
+-- Pessoa Admin
+INSERT INTO pessoa (nome, cpf, data_nascimento, email)
 VALUES ('Admin FIAP','000.000.000-00','1990-01-01','admin@fiap.com.br');
 
--- Criar usuário admin com senha "admin" (hash BCrypt)
-INSERT INTO usuario (nome, senha) 
+-- Usuário Admin (senha já com hash BCrypt)
+INSERT INTO usuario (nome, senha)
 VALUES ('admin','$2a$12$YcxBeQKXPK.06QNckf.YMeGVm8h.EazFMyURfIDFRHc554uvM3v9K');
 
--- Criar roles
-INSERT INTO funcao (nome) VALUES ('GERENTE');
-INSERT INTO funcao (nome) VALUES ('OPERADOR');
-INSERT INTO funcao (nome) VALUES ('AUXILIAR');
+-- Funções
+INSERT INTO funcao (nome) VALUES 
+('GERENTE'), ('OPERADOR'), ('AUXILIAR');
 
+-- Setores (nome = enum, descricao = humanizada)
+INSERT INTO setor (nome, descricao) VALUES
+('MANUTENCAO','Manutenção'),
+('PENDENTES','Pendentes'),
+('SEM_PLACA','Sem Placa'),
+('REPARO_SIMPLES','Reparo Simples'),
+('DANOS_GRAVES','Danos Graves'),
+('PRONTAS_PARA_ALUGAR','Prontas para Alugar'),
+('MOTOR_DEFEITUOSO','Motor Defeituoso'),
+('AGENDADAS_PARA_MANUTENCAO','Agendadas para Manutenção');
 
-
--- Popular setores (nome SEM acento; descricao humanizada)
-INSERT INTO setor (nome, descricao) VALUES ('MANUTENCAO', 'Motos enviadas para manutencao');
-INSERT INTO setor (nome, descricao) VALUES ('PENDENTES', 'Motos com status pendentes');
-INSERT INTO setor (nome, descricao) VALUES ('SEM_PLACA', 'Motos sem placas');
-INSERT INTO setor (nome, descricao) VALUES ('REPARO_SIMPLES', 'Motos em reparo simples');
-INSERT INTO setor (nome, descricao) VALUES ('DANOS_GRAVES', 'Motos com danos graves');
-INSERT INTO setor (nome, descricao) VALUES ('PRONTAS_PARA_ALUGAR', 'Motos prontas para alugar');
-INSERT INTO setor (nome, descricao) VALUES ('MOTOR_DEFEITUOSO', 'Motos com motor defeituoso');
-INSERT INTO setor (nome, descricao) VALUES ('AGENDADAS_PARA_MANUTENCAO', 'Motos agendadas para manutencao');
-
--- Vincular usuário admin à role GERENTE
-INSERT INTO usuario_funcao_tab (id_usuario, id_funcao) 
+-- Vincular usuário admin à função GERENTE
+INSERT INTO usuario_funcao_tab (id_usuario, id_funcao)
 VALUES (
     (SELECT id FROM usuario WHERE nome = 'admin'),
     (SELECT id FROM funcao WHERE nome = 'GERENTE')
 );
 
-
+-- Vincular usuário admin ao endereço
 INSERT INTO usuario_endereco_tab (id_usuario, id_endereco)
 VALUES (
     (SELECT id FROM usuario WHERE nome = 'admin'),
