@@ -3,67 +3,72 @@
 <head th:replace="~{fragmentos :: cabecalho('Editar Usuário')}"></head>
 <body>
 
-    <div th:replace="~{fragmentos :: form-logout}"></div>
+<div th:replace="~{fragmentos :: form-logout}"></div>
 
-    <div class="container mt-4">
-        <div class="row">
-            <h1>Editar Usuário</h1>
-        </div>
-        <div class="row">
-            <form th:object="${usuario}"
-                  th:action="@{/usuario/atualizar/{id}(id=${usuario.id})}"
-                  method="post">
-
-                <!-- Campo Nome -->
-                <div class="mb-3">
-                    <label for="nome" class="form-label">Nome:</label>
-                    <input id="nome" class="form-control" type="text" th:field="*{nome}" th:errorclass="is-invalid"/>
-                    <div class="invalid-feedback" th:errors="*{nome}"></div>
-                </div>
-
-               
-                <div class="mb-3">
-                    <label for="funcoes" class="form-label">Função:</label>
-                    <select th:field="*{funcoes}" name="id_funcao" class="form-select">
-                        <option th:each="f : ${lista_funcoes}"
-                                th:value="${f.id}"
-                                th:text="${f.nome}"
-                                th:selected="${usuario.funcoes.contains(f)}">
-                        </option>
-                    </select>
-                    <div class="invalid-feedback" th:errors="*{funcoes}"></div>
-                </div>
-
-				<div class="mb-3">
-				   <label for="setor">Setor:</label>
-				<select class="form-select" name="id_setor" id="setor">
-					    <option th:each="setor : ${lista_setores}"
-					            th:value="${setor.id}"
-					            th:text="${setor.descricao}"
-					            th:selected="${usuario.setores.contains(setor)}">
-					    </option>
-				</select>
-				 <div class="invalid-feedback" th:errors="*{setores}"></div>
-</div>
-
-
-
-
-
-                <!-- Token CSRF -->
-                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-
-                <!-- Botão -->
-                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-            </form>
-        </div>
-
-        <!-- Voltar -->
-        <div class="row mt-3">
-            <a href="/index" class="btn btn-secondary">Voltar para a lista de usuários</a>
-        </div>
+<div class="container mt-4">
+    <div class="row">
+        <h1>Editar Usuário</h1>
     </div>
 
-    <div th:replace="~{fragmentos :: script-js}"></div>
+    <div class="row">
+        <form th:object="${usuario}"
+              th:action="@{/usuario/atualizar/{id}(id=${usuario.id})}"
+              method="post">
+
+            <!-- Nome -->
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input id="nome" class="form-control" type="text" th:field="*{nome}" th:errorclass="is-invalid"/>
+                <div class="invalid-feedback" th:errors="*{nome}"></div>
+            </div>
+
+            <!-- Funções -->
+            <div class="mb-3">
+                <label for="funcoes" class="form-label">Função:</label>
+                <select th:field="*{funcoes}" multiple class="form-select">
+                    <option th:each="f : ${lista_funcoes}"
+                            th:value="${f.id}"
+                            th:text="${f.nome}"
+                            th:selected="${usuario.funcoes.contains(f)}">
+                    </option>
+                </select>
+                <div class="invalid-feedback" th:errors="*{funcoes}"></div>
+            </div>
+
+            <!-- Setor -->
+            <div class="mb-3">
+                <label for="setor" class="form-label">Setor:</label>
+                <select th:field="*{id_setor}" class="form-select">
+                    <option th:each="s : ${lista_setores}"
+                            th:value="${s.id}"
+                            th:text="${s.descricao}"
+                            th:selected="${usuario.setores.contains(s)}">
+                    </option>
+                </select>
+                <div class="invalid-feedback" th:errors="*{setores}"></div>
+            </div>
+
+            <!-- CEP -->
+            <div class="mb-3">
+                <label for="cep" class="form-label">CEP:</label>
+                <input id="cep" class="form-control" type="text"
+                       th:field="*{cep}" th:errorclass="is-invalid"/>
+                <div class="invalid-feedback" th:errors="*{cep}"></div>
+            </div>
+
+            <!-- CSRF -->
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+
+            <!-- Botão -->
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+        </form>
+    </div>
+
+    <div class="row mt-3">
+        <a href="/index" class="btn btn-secondary">Voltar para a lista de usuários</a>
+    </div>
+</div>
+
+<div th:replace="~{fragmentos :: script-js}"></div>
 </body>
 </html>

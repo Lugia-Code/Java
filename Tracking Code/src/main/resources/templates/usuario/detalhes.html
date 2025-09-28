@@ -32,6 +32,19 @@
                 <span th:each="setor : ${usuario.setores}" th:text="${setor.nome} + ' '" />
             </td>
         </tr>
+        <tr>
+            <th>Endereço</th>
+            <td>
+                <div th:each="endereco : ${usuario.enderecos}">
+                    <p>CEP: <span th:text="${endereco.cep}"></span></p>
+                    <p>Logradouro: <span th:text="${endereco.logradouro}"></span></p>
+                    <p>Bairro: <span th:text="${endereco.bairro}"></span></p>
+                    <p>Cidade: <span th:text="${endereco.localidade}"></span></p>
+                    <p>UF: <span th:text="${endereco.uf}"></span></p>
+                    <p>Estado: <span th:text="${endereco.estado}"></span></p>
+                </div>
+            </td>
+        </tr>
     </table>
 
     <div class="mt-3">

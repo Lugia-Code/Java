@@ -44,7 +44,7 @@ public class SegurancaConfig {
 	        )
 	        .exceptionHandling(exception ->
 	            exception.accessDeniedHandler((request, response, ex) -> {
-	                response.sendRedirect("/acesso_negado");
+	                response.sendRedirect("/acesso-negado"); // ✅ corrigido
 	            })
 	        )
 	        .headers(headers -> headers.frameOptions().disable());
@@ -52,10 +52,8 @@ public class SegurancaConfig {
 	    return http.build();
 	}
 
-	
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-
 }

@@ -29,3 +29,10 @@ VALUES (
     (SELECT id FROM usuario WHERE nome = 'admin'),
     (SELECT id FROM funcao WHERE nome = 'GERENTE')
 );
+
+
+INSERT INTO usuario_endereco_tab (id_usuario, id_endereco)
+VALUES (
+    (SELECT id FROM usuario WHERE nome = 'admin'),
+    (SELECT id FROM endereco WHERE cep = '01001-000')
+);

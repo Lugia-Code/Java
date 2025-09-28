@@ -10,47 +10,40 @@
         <h1>Cadastrar Funcionario</h1>
     </div>
     <div class="row">
-        <form th:object="${usuario}" action="/insere_usuario" method="post">
+   <form th:object="${usuario}" action="/insere_usuario" method="post">
 
-            <!-- Nome do Perfil -->
-            Nome do Funcionario: 
-            <input class="form-control" type="text" th:field="*{nome}" 
-                   th:errorclass="is-invalid">
-            <div class="invalid-feedback" th:errors="*{nome}"></div><br>
+    <!-- Nome do Funcionario -->
+    Nome do Funcionario: 
+    <input class="form-control" type="text" th:field="*{nome}" th:errorclass="is-invalid">
+    <div class="invalid-feedback" th:errors="*{nome}"></div><br>
 
-            <!-- Senha -->
-            Senha: 
-            <input class="form-control" type="password" th:field="*{senha}" 
-                   th:errorclass="is-invalid">
-            <div class="invalid-feedback" th:errors="*{senha}"></div><br>
+    <!-- Senha -->
+    Senha: 
+    <input class="form-control" type="password" th:field="*{senha}" th:errorclass="is-invalid">
+    <div class="invalid-feedback" th:errors="*{senha}"></div><br>
 
-      
+    <!-- Função -->
+    Função:
+    <select class="form-select" name="id_funcao">
+        <option th:each="funcao : ${lista_funcoes}" th:value="${funcao.id}" th:text="${funcao.nome}"></option>
+    </select><br><br>
 
-            <!-- Função -->
-            Função:
-            <select class="form-select" name="id_funcao">
-                <option th:each="funcao : ${lista_funcoes}" 
-                        th:value="${funcao.id}" 
-                        th:text="${funcao.nome}"></option>
-            </select>
-            
-            
-              Setor:
-          <select class="form-select" name="id_setor" id="setor">
-    <option th:each="setor : ${lista_setores}" 
-            th:value="${setor.id}" 
-            th:text="${setor.nome}">
-    </option>
-</select>
-            
-            
-            <br><br>
+    <!-- Setor -->
+    Setor:
+    <select class="form-select" name="id_setor" id="setor">
+        <option th:each="setor : ${lista_setores}" th:value="${setor.id}" th:text="${setor.nome}"></option>
+    </select><br><br>
 
-            <!-- CSRF -->
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+    <!-- CEP -->
+    CEP: 
+    <input class="form-control" type="text" name="cep" th:field="*{cep}" th:errorclass="is-invalid">
+    <div class="invalid-feedback" th:errors="*{cep}"></div><br>
 
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
+    <!-- CSRF -->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
     </div>
     <div class="row">
         <a href="/index">Voltar para a tela inicial</a>

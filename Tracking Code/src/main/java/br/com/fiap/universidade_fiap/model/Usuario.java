@@ -11,8 +11,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
@@ -21,29 +22,37 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String senha;
     private String nome;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_funcao_tab",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_funcao"))
-    private Set<Funcao> funcoes = new HashSet<Funcao>();
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_funcao"))
+    private Set<Funcao> funcoes = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_setor_tab",
-            joinColumns = @JoinColumn(name = "id_usuario"),
-            inverseJoinColumns = @JoinColumn(name = "id_setor"))
-    private Set<Setor> setores = new HashSet<Setor>();
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_setor"))
+    private Set<Setor> setores = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_endereco_tab",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_endereco"))
+    private Set<Endereco> enderecos = new HashSet<>();
+
+    @Transient
+    private String cep;
 
     @Transient
     private Long id_setor;
 
-    public Usuario() {
-        super();
-    }
+    public Usuario() {}
 
     public Usuario(Long id, String senha, String nome, Set<Funcao> funcoes, Set<Setor> setores) {
-        super();
         this.id = id;
         this.senha = senha;
         this.nome = nome;
@@ -51,53 +60,28 @@ public class Usuario {
         this.setores = setores;
     }
 
-    // Getters e setters para todos os campos incluindo id_setor
+    // Getters e Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getSenha() {
-        return senha;
-    }
+    public Set<Funcao> getFuncoes() { return funcoes; }
+    public void setFuncoes(Set<Funcao> funcoes) { this.funcoes = funcoes; }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
+    public Set<Setor> getSetores() { return setores; }
+    public void setSetores(Set<Setor> setores) { this.setores = setores; }
 
-    public String getNome() {
-        return nome;
-    }
+    public Set<Endereco> getEnderecos() { return enderecos; }
+    public void setEnderecos(Set<Endereco> enderecos) { this.enderecos = enderecos; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getCep() { return cep; }
+    public void setCep(String cep) { this.cep = cep; }
 
-    public Set<Funcao> getFuncoes() {
-        return funcoes;
-    }
-
-    public void setFuncoes(Set<Funcao> funcoes) {
-        this.funcoes = funcoes;
-    }
-
-    public Set<Setor> getSetores() {
-        return setores;
-    }
-
-    public void setSetores(Set<Setor> setores) {
-        this.setores = setores;
-    }
-
-    public Long getId_setor() {
-        return id_setor;
-    }
-
-    public void setId_setor(Long id_setor) {
-        this.id_setor = id_setor;
-    }
+    public Long getId_setor() { return id_setor; }
+    public void setId_setor(Long id_setor) { this.id_setor = id_setor; }
 }
