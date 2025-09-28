@@ -44,7 +44,7 @@ public class SegurancaConfig {
 	        )
 	        .exceptionHandling(exception ->
 	            exception.accessDeniedHandler((request, response, ex) -> {
-	                response.sendRedirect("/acesso-negado"); // ✅ corrigido
+	                response.sendRedirect("/acesso-negado");
 	            })
 	        )
 	        .headers(headers -> headers.frameOptions().disable());
